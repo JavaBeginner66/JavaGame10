@@ -1,4 +1,6 @@
 package model;
 
-public class GameEngineImplement {
+import model.interfaces.GameEngine;
+
+public class GameEngineImplement implements GameEngine {
 }
