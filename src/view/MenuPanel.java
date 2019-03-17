@@ -8,6 +8,6 @@ public class MenuPanel extends VBox {
 
 
     public void addListeners(MainFrame frame, GameEngine engine){
-        MenuPanelController listener = new MenuPanelController();
+        MenuPanelController listener = new MenuPanelController(frame, engine);
     }
 }

@@ -7,6 +7,6 @@ import model.interfaces.GameEngine;
 public class SidePanel extends HBox {
 
     public void addListeners(MainFrame frame, GameEngine engine){
-        SidePanelController listener = new SidePanelController();
+        SidePanelController listener = new SidePanelController(frame, engine);
     }
 }

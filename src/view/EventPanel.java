@@ -8,6 +8,6 @@ public class EventPanel extends GridPane {
 
 
     public void addListeners(MainFrame frame, GameEngine engine){
-        EventPanelController listener = new EventPanelController();
+        EventPanelController listener = new EventPanelController(frame, engine);
     }
 }
