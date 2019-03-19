@@ -6,7 +6,7 @@ import model.interfaces.GameEngine;
 public class MainFrame extends BorderPane {
 
     private MenuPanel toolBar;
-    private TextPanel textPanel;
+    private RessourcePanel ressourcePanel;
     private EventPanel eventPanel;
     private SidePanel sidePanel;
 
@@ -14,7 +14,7 @@ public class MainFrame extends BorderPane {
     public MainFrame(){
 
         this.setTop(toolBar = new MenuPanel());
-        this.setBottom(textPanel = new TextPanel());
+        this.setBottom(ressourcePanel = new RessourcePanel());
         this.setCenter(eventPanel = new EventPanel());
         this.setRight(sidePanel = new SidePanel());
 
@@ -23,7 +23,7 @@ public class MainFrame extends BorderPane {
 
     public void addListeners(GameEngine engine){
         toolBar.addListeners(this, engine);
-        textPanel.addListeners(this, engine);
+        ressourcePanel.addListeners(this, engine);
         eventPanel.addListeners(this, engine);
         sidePanel.addListeners(this, engine);
     }
@@ -34,8 +34,8 @@ public class MainFrame extends BorderPane {
         return toolBar;
     }
 
-    public TextPanel getTextPanel() {
-        return textPanel;
+    public RessourcePanel getRessourcePanel() {
+        return ressourcePanel;
     }
 
     public EventPanel getEventPanel() {
