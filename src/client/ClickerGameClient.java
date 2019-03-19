@@ -7,17 +7,19 @@ import javafx.stage.Stage;
 import model.GameEngineImplement;
 import model.interfaces.GameEngine;
 import view.MainFrame;
+import view.observers.GameEngineCallbackGUI;
 
 public class ClickerGameClient extends Application {
 
     @Override
     public void start(Stage stage) {
 
-        /* Model */
-        final GameEngine gameEngine = new GameEngineImplement();
+
         /* View */
         final MainFrame mainFrame = new MainFrame();
-        /* Send listeners */
+        /* Model and GUI callback*/
+        final GameEngine gameEngine = new GameEngineImplement(new GameEngineCallbackGUI(mainFrame));
+        /* Listeners */
         mainFrame.addListeners(gameEngine);
 
 
