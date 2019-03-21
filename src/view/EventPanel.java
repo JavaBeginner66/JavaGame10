@@ -13,7 +13,8 @@ import model.interfaces.GameEngine;
 
 public class EventPanel extends BorderPane {
 
-    private Button b1, b2;
+    private Button attack, b2, b3;
+    private Button autoAttack;
 
     private HBox barPane;
 
@@ -42,8 +43,12 @@ public class EventPanel extends BorderPane {
         grid.setHgap(5);
         grid.setVgap(5);
 
-        grid.add(b1 = new Button("Button1"), 0,0);
+        grid.add(attack = new Button("Attack"), 0,0);
         grid.add(b2 = new Button("Button2"), 1,0);
+        grid.add(b3 = new Button("Button3"), 2,0);
+        grid.add(autoAttack = new Button("Auto-attack: (10 000)"), 3,0);
+
+        autoAttack.setDisable(false);
 
         return grid;
     }
@@ -51,13 +56,23 @@ public class EventPanel extends BorderPane {
 
     public void addListeners(MainFrame frame, GameEngine engine){
         EventPanelController listener = new EventPanelController(frame, engine);
-        b1.setOnAction(listener);
+        attack.setOnAction(listener);
         b2.setOnAction(listener);
+        b3.setOnAction(listener);
+        autoAttack.setOnAction(listener);
     }
 
     /* Getters and setters */
 
     public HBox getBarPane() {
         return barPane;
+    }
+
+    public Button getAttack() {
+        return attack;
+    }
+
+    public Button getAutoAttack() {
+        return autoAttack;
     }
 }
