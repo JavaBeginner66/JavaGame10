@@ -13,4 +13,9 @@ public class GameEngineCallbackGUI {
     public MainFrame getMainFrame() {
         return mainFrame;
     }
+
+    public void calculateGoldGained(long time){
+        long gold = time * 10;
+        mainFrame.getRessourcePanel().setGoldLabel(gold);
+    }
 }
