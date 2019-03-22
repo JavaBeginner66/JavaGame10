@@ -12,6 +12,7 @@ import view.EventPanel;
 import view.MainFrame;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -53,19 +54,38 @@ public class EventPanelController implements EventHandler<ActionEvent> {
                 public void run() {
                     boolean running = true;
                     while(running) {
-                        for (MyTask task : tasks) {
-                            Platform.runLater(()->{
-
-                                if (task.isDone()) {
-                                    engine.progressBarResult(task.getParameter());
-                                    tasks.remove(task);
-                                }
-                            });
-                        }
                         try {
-                            Thread.sleep(30);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            for (MyTask task : tasks) {
+                                Platform.runLater(() -> {
+                                    if(task.getParameter() == BASIC_ATTACK && task.isDone() && autoBasicUnlocked){
+                                        tasks.remove(task);
+                                        executeAutoAttack(null);
+                                    }
+                                    if(task.getParameter() == AUTO_ATTACK && task.isDone()){
+                                        tasks.remove(task);
+                                        executeAutoAttack(frame.getEventPanel().getAttack());
+                                        autoBasicUnlocked = true;
+                                    }
+                                    if (task.isDone()) {
+
+                                        MyTask temp = null;
+
+                                        if (tasks.remove(task))
+                                            temp = task;
+
+                                        if (temp != null)
+                                            if (temp.equals(task))
+                                                engine.progressBarResult(task.getParameter());
+                                    }
+                                });
+                            }
+                            try {
+                                Thread.sleep(30);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        } catch (ConcurrentModificationException e) {
+                            System.out.print("Caught");
                         }
                     }
                 }
