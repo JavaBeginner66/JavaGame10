@@ -55,15 +55,7 @@ public class EventPanelController implements EventHandler<ActionEvent> {
                     while(running) {
                         for (MyTask task : tasks) {
                             Platform.runLater(()->{
-                                if(task.getParameter() == BASIC_ATTACK && task.isDone() && autoBasicUnlocked){
-                                        tasks.remove(task);
-                                        executeAutoAttack(null);
-                                }
-                                if(task.getParameter() == AUTO_ATTACK && task.isDone()){
-                                        tasks.remove(task);
-                                        executeAutoAttack(frame.getEventPanel().getAttack());
-                                        autoBasicUnlocked = true;
-                                }
+
                                 if (task.isDone()) {
                                     engine.progressBarResult(task.getParameter());
                                     tasks.remove(task);
