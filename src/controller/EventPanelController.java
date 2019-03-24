@@ -13,6 +13,7 @@ import view.MainFrame;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -26,7 +27,7 @@ public class EventPanelController implements EventHandler<ActionEvent> {
     private final int BASIC_ATTACK = 100;
     private final int SECONDS_3 = 300;
     private final int SECONDS_5 = 500;
-    private final int AUTO_ATTACK = 1000;
+    private final int AUTO_ATTACK = 150;
 
     public static boolean autoBasicUnlocked = false;
 
@@ -54,13 +55,22 @@ public class EventPanelController implements EventHandler<ActionEvent> {
                 public void run() {
                     boolean running = true;
                     while(running) {
-                        try {
-                            for (MyTask task : tasks) {
+                            List<MyTask> tasksToRun = new ArrayList<>(tasks);
+                            for (MyTask task : tasksToRun) {
                                 Platform.runLater(() -> {
-                                    if(task.getParameter() == BASIC_ATTACK && task.isDone() && autoBasicUnlocked){
-                                        tasks.remove(task);
+                                    if(task.getParameter() == BASIC_ATTACK && task.isDone() && autoBasicUnlocked) {
+
                                         executeAutoAttack(null);
+
+                                        /* Attempt to remove duplicate tasks
+                                        for (int i = 0; i < tasks.size(); i++) {
+                                            if (tasks.get(i).getParameter() == BASIC_ATTACK) {
+                                                System.out.println(tasks.remove(tasks.get(i)));
+                                            }
+                                        }
+                                        */
                                     }
+
                                     if(task.getParameter() == AUTO_ATTACK && task.isDone()){
                                         tasks.remove(task);
                                         executeAutoAttack(frame.getEventPanel().getAttack());
@@ -72,7 +82,7 @@ public class EventPanelController implements EventHandler<ActionEvent> {
 
                                         if (tasks.remove(task))
                                             temp = task;
-
+                                        /* Stops multiple of same tasks from getting through and giving gold for completion*/
                                         if (temp != null)
                                             if (temp.equals(task))
                                                 engine.progressBarResult(task.getParameter());
@@ -84,9 +94,6 @@ public class EventPanelController implements EventHandler<ActionEvent> {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                        } catch (ConcurrentModificationException e) {
-                            System.out.print("Caught");
-                        }
                     }
                 }
             };

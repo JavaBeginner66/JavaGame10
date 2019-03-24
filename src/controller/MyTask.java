@@ -27,9 +27,6 @@ public class MyTask extends Task<Void> {
 
         bar = frame.getEventPanel().addProgressBar();
         bar.progressProperty().bind(this.progressProperty());
-
-        new Thread(this).start();
-
     }
 
     public Void call() {
