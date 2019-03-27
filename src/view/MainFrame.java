@@ -9,6 +9,7 @@ public class MainFrame extends BorderPane {
     private RessourcePanel ressourcePanel;
     private EventPanel eventPanel;
     private SidePanel sidePanel;
+    private BuffPanel buffPanel;
 
 
     public MainFrame(){
@@ -17,6 +18,7 @@ public class MainFrame extends BorderPane {
         this.setBottom(ressourcePanel = new RessourcePanel());
         this.setCenter(eventPanel = new EventPanel());
         this.setRight(sidePanel = new SidePanel());
+        this.setLeft(buffPanel = new BuffPanel());
 
 
     }
@@ -26,6 +28,7 @@ public class MainFrame extends BorderPane {
         ressourcePanel.addListeners(this, engine);
         eventPanel.addListeners(this, engine);
         sidePanel.addListeners(this, engine);
+        buffPanel.addListeners(this, engine);
     }
 
     /* Get methods for panels */

@@ -24,9 +24,8 @@ public class MyTask extends Task<Void> {
         this.parameter = parameter;
         this.b = b;
         this.frame = frame;
+        addBar();
 
-        bar = frame.getEventPanel().addProgressBar();
-        bar.progressProperty().bind(this.progressProperty());
     }
 
     public Void call() {
@@ -50,6 +49,13 @@ public class MyTask extends Task<Void> {
             });
         }
         return null;
+    }
+
+    private void addBar(){
+        Platform.runLater(() ->{
+            bar = frame.getEventPanel().addProgressBar();
+            bar.progressProperty().bind(this.progressProperty());
+        });
     }
 
     public long getParameter() {
