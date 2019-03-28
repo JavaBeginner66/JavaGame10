@@ -15,10 +15,11 @@ public class GameEngineImplement implements GameEngine {
 
     private GameEngineCallbackGUI callBackGUI;
 
-    private ExecutorService executor = Executors.newCachedThreadPool();
-    public static ArrayList<MyTask> tasks = new ArrayList<>();
+    public static ExecutorService executor = Executors.newCachedThreadPool();
 
-    public static boolean autoBasicUnlocked = false;
+    private ArrayList<MyTask> tasks = new ArrayList<>();
+
+    private boolean autoBasicUnlocked = false;
 
     private final int BASIC_ATTACK = 100;
     private final int SECONDS_3 = 300;
@@ -47,7 +48,7 @@ public class GameEngineImplement implements GameEngine {
 
                         if(task.getParameter() == AUTO_ATTACK && task.isDone()){
                             tasks.remove(task);
-                            executeAutoAttack(callBackGUI.getMainFrame().getEventPanel().getAttack());
+                            executeAutoAttack(callBackGUI.getMainFrame().getEventPanel().getButtons("attack"));
                             autoBasicUnlocked = true;
                         }
                         if (task.isDone()) {
@@ -83,7 +84,7 @@ public class GameEngineImplement implements GameEngine {
 
         tasks.add(task);
         // Shorten reference
-        callBackGUI.getMainFrame().getEventPanel().getAttack().setDisable(true);
+        callBackGUI.getMainFrame().getEventPanel().getButtons("attack").setDisable(true);
 
         executor.execute(task);
     }
@@ -93,8 +94,8 @@ public class GameEngineImplement implements GameEngine {
         MyTask task4 = new MyTask(AUTO_ATTACK, null, callBackGUI.getMainFrame());
 
         tasks.add(task4);
-        callBackGUI.getMainFrame().getEventPanel().getAttack().setDisable(true);
-        callBackGUI.getMainFrame().getEventPanel().getAutoAttack().setDisable(true);
+        callBackGUI.getMainFrame().getEventPanel().getButtons("attack").setDisable(true);
+        callBackGUI.getMainFrame().getEventPanel().getButtons("autoAttack").setDisable(true);
 
         executor.execute(task4);
     }
@@ -102,6 +103,8 @@ public class GameEngineImplement implements GameEngine {
 
     @Override
     public void progressBarResult(long time){
-        callBackGUI.calculateGoldGained(time);
+        long gold = time * 10;
+        callBackGUI.getMainFrame().getRessourcePanel().setGoldLabel(gold);
     }
+
 }

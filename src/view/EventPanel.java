@@ -12,29 +12,40 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import model.interfaces.GameEngine;
 
+import java.util.TreeMap;
 
 
 public class EventPanel extends BorderPane {
 
-    private ScrollPane sp = new ScrollPane();
-
-    private Button attack, b2, b3;
-    private Button autoAttack;
+    private Button attack, b2, b3, autoAttack;
+    private TreeMap<String, Button> buttons;
 
     private HBox barPane;
 
 
     public EventPanel(){
+        hashButtons();
+        ScrollPane sp = new ScrollPane();
         this.setCenter(sp);
         this.setBottom(barPane = new HBox());
+        this.setPadding(new Insets(20,20,20,20));
+
         barPane.setMinHeight(40);
         barPane.setPadding(new Insets(20,0,0,0));
+
         sp.setContent(addButtons());
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         sp.setPannable(true);
+    }
 
-        this.setPadding(new Insets(20,20,20,20));
+    private void hashButtons(){
+
+        buttons = new TreeMap<>();
+        buttons.put("attack", attack = new Button("Attack"));
+        buttons.put("b2", b2 = new Button("b2"));
+        buttons.put("b3", b3 = new Button("b3"));
+        buttons.put("autoAttack", autoAttack = new Button("AutoAttack"));
     }
 
     public ProgressBar addProgressBar(){
@@ -56,10 +67,10 @@ public class EventPanel extends BorderPane {
         grid.setHgap(5);
         grid.setVgap(5);
 
-        grid.add(attack = new Button("Attack"), 0,0);
-        grid.add(b2 = new Button("Button2"), 0,1);
-        grid.add(b3 = new Button("Button3"), 0,2);
-        grid.add(autoAttack = new Button("Auto-attack: (10 000)"), 0,3);
+        grid.add(attack, 0,0);
+        grid.add(b2, 0,1);
+        grid.add(b3, 0,2);
+        grid.add(autoAttack, 0,3);
 
 
         autoAttack.setPrefSize(400, 400);
@@ -83,11 +94,7 @@ public class EventPanel extends BorderPane {
         return barPane;
     }
 
-    public Button getAttack() {
-        return attack;
-    }
-
-    public Button getAutoAttack() {
-        return autoAttack;
+    public Button getButtons(String key){
+        return buttons.get(key);
     }
 }

@@ -39,7 +39,7 @@ public class EventPanelController implements EventHandler<ActionEvent> {
 
         switch(s){
             case "Attack":
-                engine.executeAutoAttack(frame.getEventPanel().getAttack());
+                engine.executeAutoAttack(frame.getEventPanel().getButtons("attack"));
                 break;
             case "Button2":
 
@@ -47,7 +47,7 @@ public class EventPanelController implements EventHandler<ActionEvent> {
             case "Button3":
 
                 break;
-            case "Auto-attack: (10 000)":
+            case "AutoAttack":
                 engine.unlockAutoAttack();
                 break;
         }

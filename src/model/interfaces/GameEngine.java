@@ -33,6 +33,8 @@ public interface GameEngine {
     void unlockAutoAttack();
 
     /**
+     *  Method progressBarResult calculates the amount of ressources
+     *  player recieves based on what task is complete.
      *
      * @param time
      *          How much time the progressbar spent
