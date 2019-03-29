@@ -3,8 +3,11 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.MenuItem;
+import model.GameEngineImplement;
 import model.interfaces.GameEngine;
 import view.MainFrame;
+
+import java.util.concurrent.TimeUnit;
 
 public class MenuPanelController implements EventHandler<ActionEvent> {
 
@@ -46,7 +49,15 @@ public class MenuPanelController implements EventHandler<ActionEvent> {
     }
 
     private void exit(){
-
+        save();
+        try {
+        GameEngineImplement.executor.shutdown();
+        GameEngineImplement.executor.awaitTermination(3, TimeUnit.SECONDS);
+        GameEngineImplement.executor.shutdownNow();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.exit(0);
     }
     private void save(){
 
