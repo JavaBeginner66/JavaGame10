@@ -21,10 +21,10 @@ public class GameEngineImplement implements GameEngine {
 
     private boolean autoBasicUnlocked = false;
 
-    private final int BASIC_ATTACK = 100;
-    private final int SECONDS_3 = 300;
-    private final int SECONDS_5 = 500;
-    private final int AUTO_ATTACK = 150;
+    private int BASIC_ATTACK = 100;
+    private int SECONDS_3 = 300;
+    private int SECONDS_5 = 500;
+    private int AUTO_ATTACK = 150;
 
     public GameEngineImplement(GameEngineCallbackGUI callBackGUI){
         this.callBackGUI = callBackGUI;

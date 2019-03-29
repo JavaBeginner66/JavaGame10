@@ -47,7 +47,7 @@ public class EventPanelController implements EventHandler<ActionEvent> {
             case "Button3":
 
                 break;
-            case "AutoAttack":
+            case "Unlock AutoAttack":
                 engine.unlockAutoAttack();
                 break;
         }

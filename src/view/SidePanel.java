@@ -8,7 +8,7 @@ import model.interfaces.GameEngine;
 public class SidePanel extends HBox {
 
     public SidePanel(){
-        Label l = new Label("Noe");
+        Label l = new Label("Noeeeeeeeeeeeeeeeeeeeeeee");
         this.getChildren().addAll(l);
         this.setStyle("-fx-background-color: #c4c4c4;");
     }
