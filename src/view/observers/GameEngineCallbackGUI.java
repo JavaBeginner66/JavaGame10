@@ -1,5 +1,9 @@
 package view.observers;
 
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import view.MainFrame;
 
 public class GameEngineCallbackGUI {
@@ -12,6 +16,12 @@ public class GameEngineCallbackGUI {
 
     public MainFrame getMainFrame() {
         return mainFrame;
+    }
+
+    public static Label setLabelStyle(Label text, int size){
+        text.setFont(Font.font("Monospace",
+                FontWeight.BOLD, FontPosture.REGULAR, size));
+        return text;
     }
 
 }
