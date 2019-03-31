@@ -45,7 +45,7 @@ public class MainFrame extends BorderPane {
         return eventPanel;
     }
 
-    public SidePanel getSidePanel() {
-        return sidePanel;
+    public BuffPanel getBuffPanel() {
+        return buffPanel;
     }
 }
