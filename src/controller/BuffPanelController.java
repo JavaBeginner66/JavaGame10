@@ -3,6 +3,7 @@ package controller;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.CheckBox;
+import model.ValueContainer;
 import model.interfaces.GameEngine;
 import view.MainFrame;
 
@@ -10,6 +11,8 @@ public class BuffPanelController implements EventHandler {
 
     private MainFrame frame;
     private GameEngine engine;
+
+    private ValueContainer valueContainer = ValueContainer.getInstance();
 
 
     public BuffPanelController(MainFrame frame, GameEngine engine){
@@ -38,9 +41,9 @@ public class BuffPanelController implements EventHandler {
 
     private void goldIncrease(boolean state){
         if(state)
-            frame.getBuffPanel().setGoldMultiplier(30);
+            valueContainer.setValue("multiplier", 30);
         else
-            frame.getBuffPanel().setGoldMultiplier(10);
+            valueContainer.setValue("multiplier", 10);
 
     }
 }

@@ -10,10 +10,10 @@ import view.observers.GameEngineCallbackGUI;
 public class RessourcePanel extends GridPane {
 
     private long gold;
-    private long mana;
+    private long energy;
 
     private Label goldLabel;
-    private Label manaLabel;
+    private Label energyLabel;
 
     public RessourcePanel(){
         this.setStyle("-fx-background-color: #c4c4c4;");
@@ -26,12 +26,12 @@ public class RessourcePanel extends GridPane {
         goldLabel = new Label("Gold: ");
         goldLabel = GameEngineCallbackGUI.setLabelStyle(goldLabel, 20);
 
-        manaLabel = new Label("Mana: ");
-        manaLabel = GameEngineCallbackGUI.setLabelStyle(manaLabel, 20);
+        energyLabel = new Label("Energy: ");
+        energyLabel = GameEngineCallbackGUI.setLabelStyle(energyLabel, 20);
 
 
         this.add(goldLabel, 0,0);
-        this.add(manaLabel, 0, 1);
+        this.add(energyLabel, 0, 1);
     }
 
 
@@ -45,8 +45,8 @@ public class RessourcePanel extends GridPane {
     }
 
     public void setMana(){
-        this.mana += mana;
-        this.manaLabel.setText("Mana: " + this.mana);
+        this.energy += energy;
+        this.energyLabel.setText("Energy: " + this.energy);
     }
 
 

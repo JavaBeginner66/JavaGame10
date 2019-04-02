@@ -17,14 +17,12 @@ public class GameEngineImplement implements GameEngine {
 
     public static ExecutorService executor = Executors.newCachedThreadPool();
 
+    private ValueContainer valueContainer = ValueContainer.getInstance();
+
     private ArrayList<MyTask> tasks = new ArrayList<>();
 
     private boolean autoBasicUnlocked = false;
 
-    private int BASIC_ATTACK = 100;
-    private int SECONDS_3 = 300;
-    private int SECONDS_5 = 500;
-    private int AUTO_ATTACK = 150;
 
     public GameEngineImplement(GameEngineCallbackGUI callBackGUI){
         this.callBackGUI = callBackGUI;
@@ -42,13 +40,13 @@ public class GameEngineImplement implements GameEngine {
                     List<MyTask> tasksToRun = new ArrayList<>(tasks);
                     for (MyTask task : tasksToRun) {
 
-                        if(task.getParameter() == BASIC_ATTACK && task.isDone() && autoBasicUnlocked)
+                        if(task.getParameter() == valueContainer.getValue("basic") && task.isDone() && autoBasicUnlocked)
                             executeAutoAttack(null);
 
 
-                        if(task.getParameter() == AUTO_ATTACK && task.isDone()){
+                        if(task.getParameter() == valueContainer.getValue("auto") && task.isDone()){
                             tasks.remove(task);
-                            executeAutoAttack(callBackGUI.getMainFrame().getEventPanel().getButtons("attack"));
+                            executeAutoAttack(callBackGUI.getMainFrame().getEventPanel().getButtons("steal"));
                             autoBasicUnlocked = true;
                         }
                         if (task.isDone()) {
@@ -80,21 +78,21 @@ public class GameEngineImplement implements GameEngine {
 
     @Override
     public void executeAutoAttack(Button b){
-        MyTask task = new MyTask(BASIC_ATTACK, b, callBackGUI.getMainFrame());
+        MyTask task = new MyTask(valueContainer.getValue("basic"), b, callBackGUI.getMainFrame());
 
         tasks.add(task);
         // Shorten reference
-        callBackGUI.getMainFrame().getEventPanel().getButtons("attack").setDisable(true);
+        callBackGUI.getMainFrame().getEventPanel().getButtons("steal").setDisable(true);
 
         executor.execute(task);
     }
 
     @Override
     public void unlockAutoAttack(){
-        MyTask task4 = new MyTask(AUTO_ATTACK, null, callBackGUI.getMainFrame());
+        MyTask task4 = new MyTask(valueContainer.getValue("auto"), null, callBackGUI.getMainFrame());
 
         tasks.add(task4);
-        callBackGUI.getMainFrame().getEventPanel().getButtons("attack").setDisable(true);
+        callBackGUI.getMainFrame().getEventPanel().getButtons("steal").setDisable(true);
         callBackGUI.getMainFrame().getEventPanel().getButtons("autoAttack").setDisable(true);
 
         executor.execute(task4);
@@ -103,8 +101,9 @@ public class GameEngineImplement implements GameEngine {
 
     @Override
     public void progressBarResult(long time){
-        long gold = time * 10;
+        long gold = time * valueContainer.getValue("multiplier");
         callBackGUI.getMainFrame().getRessourcePanel().setGoldLabel(gold);
     }
+
 
 }

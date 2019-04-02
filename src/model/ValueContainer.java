@@ -35,9 +35,16 @@ public class ValueContainer {
 
     }
 
-    int getValue(String key){
+    public int getValue(String key){
         return values.get(key);
     }
+
+    public void setValue(String key, int newValue){
+        if(values.containsKey(key)){
+            values.put(key, newValue);
+        }
+    }
+
 }
 
 
