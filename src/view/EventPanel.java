@@ -1,19 +1,13 @@
 package view;
 
 import controller.EventPanelController;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import model.interfaces.GameEngine;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -21,7 +15,8 @@ import java.util.TreeMap;
 
 public class EventPanel extends BorderPane {
 
-    private Button attack, b2, b3, autoAttack, b4, b5, b6, b7, b8, b9, b10, b11;
+    private Button steal, b2, b3, b4, b5, b6, b7, b8,b9,b10,b11,b12,b13, special1, special2, special3, special4,
+    invis1,invis2,invis3,invis4,invis5,invis6,invis7;
     private TreeMap<String, Button> buttons;
 
     private HBox barPane;
@@ -29,7 +24,7 @@ public class EventPanel extends BorderPane {
 
     public EventPanel(){
         /* Put buttons in a TreeSet */
-        hashButtons();
+        mapButtons();
         /* Style buttons */
         setButtonStyle(buttons);
         /* Create ScrollPane and set it in center */
@@ -51,13 +46,21 @@ public class EventPanel extends BorderPane {
 
     }
 
-    private void hashButtons(){
+    private void mapButtons(){
 
         buttons = new TreeMap<>();
-        buttons.put("attack", attack = new Button("Attack"));
+
+/*
+        buttons.put("steal", steal = new Button("Steal"));
+        buttons.put("autoAttack", autoAttack = new Button("AutoAttack"));
+
+        buttons.put("mission", mission = new Button("Mission"));
+        buttons.put("stamina", stamina = new Button("Stamina"));
+*/
+
+        buttons.put("steal", steal = new Button("Steal"));
         buttons.put("b2", b2 = new Button("b2"));
         buttons.put("b3", b3 = new Button("b3"));
-        buttons.put("autoAttack", autoAttack = new Button("AutoAttack"));
         buttons.put("b4", b4 = new Button("b4"));
         buttons.put("b5", b5 = new Button("b5"));
         buttons.put("b6", b6 = new Button("b6"));
@@ -66,6 +69,23 @@ public class EventPanel extends BorderPane {
         buttons.put("b9", b9 = new Button("b9"));
         buttons.put("b10", b10 = new Button("b10"));
         buttons.put("b11", b11 = new Button("b11"));
+        buttons.put("b12", b12 = new Button("b12"));
+        buttons.put("b13", b13 = new Button("b13"));
+        buttons.put("special1", special1 = new Button("special"));
+        buttons.put("special2", special2 = new Button("special"));
+        buttons.put("specia3", special3 = new Button("special"));
+        buttons.put("special4", special4 = new Button("special"));
+
+
+        buttons.put("invis1", invis1 = new Button());
+        buttons.put("invis2", invis2 = new Button());
+        buttons.put("invis3", invis3 = new Button());
+        buttons.put("invis4", invis4 = new Button());
+        buttons.put("invis5", invis5 = new Button());
+        buttons.put("invis6", invis6 = new Button());
+        buttons.put("invis7", invis7 = new Button());
+
+
     }
 
     public ProgressBar addProgressBar(){
@@ -81,10 +101,13 @@ public class EventPanel extends BorderPane {
 
     public void addListeners(MainFrame frame, GameEngine engine){
         EventPanelController listener = new EventPanelController(frame, engine);
-        attack.setOnAction(listener);
-        b2.setOnAction(listener);
-        b3.setOnAction(listener);
+
+        steal.setOnAction(listener);
+        /*
+        mission.setOnAction(listener);
+        stamina.setOnAction(listener);
         autoAttack.setOnAction(listener);
+        */
     }
 
     private void setButtonStyle(TreeMap buttons){
@@ -94,7 +117,11 @@ public class EventPanel extends BorderPane {
                 "        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),\n" +
                 "        linear-gradient(#20262b, #191d22),\n" +
                 "        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));\n" +
-                "    -fx-background-radius: 5,4,3,5;\n" +
+                "    -fx-background-radius: 4em;\n" +
+                    "-fx-min-width: 100px; " +
+                    "-fx-min-height: 50px; " +
+                    "-fx-max-width: 100px; " +
+                    "-fx-max-height: 50px;" +
                 "    -fx-background-insets: 0,1,2,0;\n" +
                 "    -fx-text-fill: white;\n" +
                 "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );\n" +
@@ -109,7 +136,11 @@ public class EventPanel extends BorderPane {
                 "        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),\n" +
                 "        linear-gradient(#20262b, #191d22),\n" +
                 "        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));\n" +
-                "    -fx-background-radius: 5,4,3,5;\n" +
+                "    -fx-background-radius: 4em;\n" +
+                    "-fx-min-width: 100px; " +
+                    "-fx-min-height: 50px; " +
+                    "-fx-max-width: 100px; " +
+                    "-fx-max-height: 50px;" +
                 "    -fx-background-insets: 0,1,2,0;\n" +
                 "    -fx-text-fill: white;\n" +
                 "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );\n" +
@@ -163,22 +194,45 @@ public class EventPanel extends BorderPane {
 
         grid.setPadding(new Insets(20,20,20,20));
         grid.setHgap(30);
-        grid.setVgap(15);
+        grid.setVgap(40);
 
-        grid.add(attack, 0,0);
-        grid.add(b2, 0,1);
-        grid.add(b3, 0,2);
-        grid.add(autoAttack, 0,3);
-        grid.add(b4, 0,4);
-        grid.add(b5, 0,5);
-        grid.add(b6, 0,6);
-        grid.add(b7, 0,7);
-        grid.add(b8, 0,8);
-        grid.add(b9, 1,5);
-        grid.add(b10, 2,5);
-        grid.add(b11, 3,5);
+        grid.add(invis1, 0,0);
+        grid.add(invis2, 1,0);
+        grid.add(invis3, 2,0);
+        grid.add(invis4, 2,1);
+        grid.add(invis5, 2,5);
+        grid.add(invis6, 4,1);
+        grid.add(invis7, 4,5);
 
-        b6.setVisible(false);
+        grid.add(b4, 3,0);
+        grid.add(b2, 3,1);
+        grid.add(b3, 3,2);
+        grid.add(steal, 3,3);
+        grid.add(b5, 3,4);
+        grid.add(b6, 3,5);
+        grid.add(b7, 3,6);
+
+        grid.add(b8, 2,3);
+        grid.add(b9, 1,3);
+        grid.add(b10, 0,3);
+
+        grid.add(b11, 4,3);
+        grid.add(b12, 5,3);
+        grid.add(b13, 6,3);
+
+        grid.add(special1, 1, 1);
+        grid.add(special2, 1, 5);
+        grid.add(special3, 5, 1);
+        grid.add(special4, 5, 5);
+
+        /* Creating space by adding invisible buttons */
+        invis1.setVisible(false);
+        invis2.setVisible(false);
+        invis3.setVisible(false);
+        invis4.setVisible(false);
+        invis5.setVisible(false);
+        invis6.setVisible(false);
+        invis7.setVisible(false);
 
 
         BackgroundImage img = new BackgroundImage(new Image("background.jpg", grid.getWidth(), grid.getHeight(),true,true),
