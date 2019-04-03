@@ -1,23 +1,10 @@
 package controller;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
 import model.interfaces.GameEngine;
-import view.EventPanel;
 import view.MainFrame;
-
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.RejectedExecutionException;
 
 public class EventPanelController implements EventHandler<ActionEvent> {
 
@@ -38,17 +25,26 @@ public class EventPanelController implements EventHandler<ActionEvent> {
         String s = b.getText();
 
         switch(s){
-            case "Steal":
-                engine.executeAutoAttack(frame.getEventPanel().getButtons("steal"));
+            case "steal":
+                engine.steal(b);
                 break;
-            case "Button2":
-
+            case "income1":
+                engine.steal(b);
                 break;
-            case "Button3":
-
+            case "income2":
+                engine.steal(b);
                 break;
-            case "AutoAttack":
-                engine.unlockAutoAttack();
+            case "income3":
+                engine.steal(b);
+                break;
+            case "time1":
+                engine.time(b);
+                break;
+            case "passive1":
+                engine.autoIncome();
+                break;
+            case "passive4":
+                engine.autoIncome();
                 break;
         }
     }
