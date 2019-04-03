@@ -11,7 +11,7 @@ public class ValueContainer {
 
     private static ValueContainer instance;
 
-    private static TreeMap<String, Integer> values = new TreeMap<>();
+    private static TreeMap<String, Double> values = new TreeMap<>();
 
     private ValueContainer(){}
 
@@ -24,22 +24,32 @@ public class ValueContainer {
     }
 
     private static void mapValues(){
-        int basicAttack = 100;
-        int autoAttack = 150;
-        int goldMultiplier = 10;
+        double steal = 100;
+        double income1 = 300;
+        double income2 = 500;
+        double income3 = 1000;
+        double autoIncome = 150;
+        double goldMultiplier = 10;
 
-        values.put("basic", basicAttack);
-        values.put("auto", autoAttack);
+        values.put("steal", steal);
+        values.put("autoIncome", autoIncome);
         values.put("multiplier", goldMultiplier);
+        values.put("income1", income1);
+        values.put("income2", income2);
+        values.put("income3", income3);
 
 
     }
 
-    public int getValue(String key){
+    public double getValue(String key){
         return values.get(key);
     }
 
-    public void setValue(String key, int newValue){
+    public TreeMap getValueMap(){
+        return values;
+    }
+
+    public void setValue(String key, double newValue){
         if(values.containsKey(key)){
             values.put(key, newValue);
         }

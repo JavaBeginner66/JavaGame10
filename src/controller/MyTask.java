@@ -14,13 +14,13 @@ import java.util.ArrayList;
 
 public class MyTask extends Task<Void> {
 
-    private long parameter;
+    private double parameter;
     private Button b;
     private MainFrame frame;
 
     private ProgressBar bar;
 
-    public MyTask(long parameter, Button b, MainFrame frame){
+    public MyTask(double parameter, Button b, MainFrame frame){
         this.parameter = parameter;
         this.b = b;
         this.frame = frame;
@@ -58,7 +58,7 @@ public class MyTask extends Task<Void> {
         });
     }
 
-    public long getParameter() {
+    public double getParameter() {
         return parameter;
     }
 }

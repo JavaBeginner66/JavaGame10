@@ -9,8 +9,8 @@ import view.observers.GameEngineCallbackGUI;
 
 public class RessourcePanel extends GridPane {
 
-    private long gold;
-    private long energy;
+    private double gold;
+    private double energy;
 
     private Label goldLabel;
     private Label energyLabel;
@@ -39,12 +39,12 @@ public class RessourcePanel extends GridPane {
         RessourcePanelController listener = new RessourcePanelController(frame, engine);
     }
 
-    public void setGoldLabel(long gold){
+    public void setGoldLabel(double gold){
         this.gold += gold;
         this.goldLabel.setText("Gold: " + this.gold);
     }
 
-    public void setMana(){
+    public void setEnergyLabel(double energy){
         this.energy += energy;
         this.energyLabel.setText("Energy: " + this.energy);
     }
