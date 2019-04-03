@@ -18,20 +18,34 @@ public interface GameEngine {
 
     /**
      *
-     * Method executeAttack starts the fastest Task thread.
+     * Method steal starts a Task thread that generates the lowest gold income.
      *
      *  @param b
      *      b is the button reference sent from the EventHandler.
      *      Used to disable/enable buttons before/after threads.
      */
-    void executeAutoAttack(Button b);
+    void steal(Button b);
 
     /**
-     * Method unlockAutoAttack creates a Task thread that makes the executeAutoAttack Task
+     *
+     * Method steal starts a Task thread that lowers the time spent on all tasks.
+     *
+     *  @param b
+     *      b is the button reference sent from the EventHandler.
+     *      Used to disable/enable buttons before/after threads.
+     */
+    void time(Button b);
+
+    /**
+     * Method autoIncome creates a Task thread that makes the steal Task
      * automated on completion.
      */
-    void unlockAutoAttack();
+    void autoIncome();
 
+    /**
+     *  Method autoTime creates a task which automates time reduction on tasks
+     */
+    void autoTime();
     /**
      *  Method progressBarResult calculates the amount of ressources
      *  player recieves based on what task is complete.
@@ -39,6 +53,10 @@ public interface GameEngine {
      * @param time
      *          How much time the progressbar spent
      */
-    void progressBarResult(long time);
+    void progressBarResult(double time);
+
+
+
+
 
 }

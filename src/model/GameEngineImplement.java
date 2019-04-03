@@ -7,7 +7,9 @@ import model.interfaces.GameEngine;
 import view.observers.GameEngineCallbackGUI;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -40,13 +42,13 @@ public class GameEngineImplement implements GameEngine {
                     List<MyTask> tasksToRun = new ArrayList<>(tasks);
                     for (MyTask task : tasksToRun) {
 
-                        if(task.getParameter() == valueContainer.getValue("basic") && task.isDone() && autoBasicUnlocked)
-                            executeAutoAttack(null);
+                        if(task.getParameter() == valueContainer.getValue("steal") && task.isDone() && autoBasicUnlocked)
+                            steal(null);
 
 
-                        if(task.getParameter() == valueContainer.getValue("auto") && task.isDone()){
+                        if(task.getParameter() == valueContainer.getValue("autoIncome") && task.isDone()){
                             tasks.remove(task);
-                            executeAutoAttack(callBackGUI.getMainFrame().getEventPanel().getButtons("steal"));
+                            steal(callBackGUI.getMainFrame().getEventPanel().getButton("steal"));
                             autoBasicUnlocked = true;
                         }
                         if (task.isDone()) {
@@ -55,7 +57,7 @@ public class GameEngineImplement implements GameEngine {
 
                             if (tasks.remove(task))
                                 temp = task;
-                            /* Stops multiple of same tasks from getting through and giving gold for completion*/
+                            /* Stops multiple of same tasks from getting through */
                             if (temp != null)
                                 if (temp.equals(task)) {
                                     Platform.runLater(() ->{
@@ -77,31 +79,83 @@ public class GameEngineImplement implements GameEngine {
     }
 
     @Override
-    public void executeAutoAttack(Button b){
-        MyTask task = new MyTask(valueContainer.getValue("basic"), b, callBackGUI.getMainFrame());
+    public void steal(Button b){
+        MyTask task = null;
+        String income = "steal";
+        if(b != null)
+            income = b.getText();
+
+        switch(income){
+            case "steal":
+                task = new MyTask(valueContainer.getValue("steal"), b, callBackGUI.getMainFrame());
+                callBackGUI.getMainFrame().getEventPanel().getButton("steal").setDisable(true);
+                break;
+            case "income1":
+                task = new MyTask(valueContainer.getValue("income1"), b, callBackGUI.getMainFrame());
+                callBackGUI.getMainFrame().getEventPanel().getButton("income1").setDisable(true);
+                break;
+            case "income2":
+                task = new MyTask(valueContainer.getValue("income2"), b, callBackGUI.getMainFrame());
+                callBackGUI.getMainFrame().getEventPanel().getButton("income2").setDisable(true);
+                break;
+            case "income3":
+                task = new MyTask(valueContainer.getValue("income3"), b, callBackGUI.getMainFrame());
+                callBackGUI.getMainFrame().getEventPanel().getButton("income3").setDisable(true);
+                break;
+
+        }
 
         tasks.add(task);
-        // Shorten reference
-        callBackGUI.getMainFrame().getEventPanel().getButtons("steal").setDisable(true);
-
         executor.execute(task);
     }
 
     @Override
-    public void unlockAutoAttack(){
-        MyTask task4 = new MyTask(valueContainer.getValue("auto"), null, callBackGUI.getMainFrame());
+    public void time(Button b){
+        MyTask task = null;
+        String time = b.getText();
 
-        tasks.add(task4);
-        callBackGUI.getMainFrame().getEventPanel().getButtons("steal").setDisable(true);
-        callBackGUI.getMainFrame().getEventPanel().getButtons("autoAttack").setDisable(true);
+        switch(time){
+            case "time1":
+                Set keys = valueContainer.getValueMap().keySet();
+                for (Iterator i = keys.iterator(); i.hasNext();) {
+                    String s = (String) i.next();
+                    if(s.equals("multiplier"))
+                        continue;
+                    double value = valueContainer.getValue(s);
+                    value = value * 0.9;
+                    valueContainer.setValue(s, value);
+                }
+        }
 
-        executor.execute(task4);
+        tasks.add(task);
+        executor.execute(task);
+    }
+
+    @Override
+    public void autoIncome(){
+        MyTask task = new MyTask(valueContainer.getValue("autoIncome"), null, callBackGUI.getMainFrame());
+
+        tasks.add(task);
+        callBackGUI.getMainFrame().getEventPanel().getButton("steal").setDisable(true);
+        callBackGUI.getMainFrame().getEventPanel().getButton("passive1").setDisable(true);
+
+        executor.execute(task);
+    }
+    @Override
+    public void autoTime(){
+        MyTask task = new MyTask(valueContainer.getValue("autoIncome"), null, callBackGUI.getMainFrame());
+
+        tasks.add(task);
+        callBackGUI.getMainFrame().getEventPanel().getButton("passive4").setDisable(true);
+
+        executor.execute(task);
     }
 
 
+
     @Override
-    public void progressBarResult(long time){
-        long gold = time * valueContainer.getValue("multiplier");
+    public void progressBarResult(double time){
+        double gold = time * valueContainer.getValue("multiplier");
         callBackGUI.getMainFrame().getRessourcePanel().setGoldLabel(gold);
     }
 
