@@ -15,8 +15,8 @@ import java.util.TreeMap;
 
 public class EventPanel extends BorderPane {
 
-    private Button steal, b2, b3, b4, b5, b6, b7, b8,b9,b10,b11,b12,b13, special1, special2, special3, special4,
-    invis1,invis2,invis3,invis4,invis5,invis6,invis7;
+    private Button steal, strength2, strength1, strength3, energy1, energy2, energy3, income1, income2, income3, time1, time2, time3,
+            passive2, passive1, passive3, passive4;
     private TreeMap<String, Button> buttons;
 
     private HBox barPane;
@@ -50,40 +50,23 @@ public class EventPanel extends BorderPane {
 
         buttons = new TreeMap<>();
 
-/*
-        buttons.put("steal", steal = new Button("Steal"));
-        buttons.put("autoAttack", autoAttack = new Button("AutoAttack"));
-
-        buttons.put("mission", mission = new Button("Mission"));
-        buttons.put("stamina", stamina = new Button("Stamina"));
-*/
-
-        buttons.put("steal", steal = new Button("Steal"));
-        buttons.put("b2", b2 = new Button("b2"));
-        buttons.put("b3", b3 = new Button("b3"));
-        buttons.put("b4", b4 = new Button("b4"));
-        buttons.put("b5", b5 = new Button("b5"));
-        buttons.put("b6", b6 = new Button("b6"));
-        buttons.put("b7", b7 = new Button("b7"));
-        buttons.put("b8", b8 = new Button("b8"));
-        buttons.put("b9", b9 = new Button("b9"));
-        buttons.put("b10", b10 = new Button("b10"));
-        buttons.put("b11", b11 = new Button("b11"));
-        buttons.put("b12", b12 = new Button("b12"));
-        buttons.put("b13", b13 = new Button("b13"));
-        buttons.put("special1", special1 = new Button("special"));
-        buttons.put("special2", special2 = new Button("special"));
-        buttons.put("specia3", special3 = new Button("special"));
-        buttons.put("special4", special4 = new Button("special"));
-
-
-        buttons.put("invis1", invis1 = new Button());
-        buttons.put("invis2", invis2 = new Button());
-        buttons.put("invis3", invis3 = new Button());
-        buttons.put("invis4", invis4 = new Button());
-        buttons.put("invis5", invis5 = new Button());
-        buttons.put("invis6", invis6 = new Button());
-        buttons.put("invis7", invis7 = new Button());
+        buttons.put("steal", steal = new Button("steal"));
+        buttons.put("strength2", strength2 = new Button("strength2"));
+        buttons.put("strength1", strength1 = new Button("strength1"));
+        buttons.put("strength3", strength3 = new Button("strength3"));
+        buttons.put("energy1", energy1 = new Button("energy1"));
+        buttons.put("energy2", energy2 = new Button("energy2"));
+        buttons.put("energy3", energy3 = new Button("energy3"));
+        buttons.put("income1", income1 = new Button("income1"));
+        buttons.put("income2", income2 = new Button("income2"));
+        buttons.put("income3", income3 = new Button("income3"));
+        buttons.put("time1", time1 = new Button("time1"));
+        buttons.put("time2", time2 = new Button("time2"));
+        buttons.put("time3", time3 = new Button("time3"));
+        buttons.put("passive2", passive2 = new Button("passive2"));
+        buttons.put("passive1", passive1 = new Button("passive1"));
+        buttons.put("passive3", passive3 = new Button("passive3"));
+        buttons.put("passive4", passive4 = new Button("passive4"));
 
 
     }
@@ -103,6 +86,12 @@ public class EventPanel extends BorderPane {
         EventPanelController listener = new EventPanelController(frame, engine);
 
         steal.setOnAction(listener);
+        income1.setOnAction(listener);
+        income2.setOnAction(listener);
+        income3.setOnAction(listener);
+        passive1.setOnAction(listener);
+        passive4.setOnAction(listener);
+        time1.setOnAction(listener);
         /*
         mission.setOnAction(listener);
         stamina.setOnAction(listener);
@@ -196,6 +185,14 @@ public class EventPanel extends BorderPane {
         grid.setHgap(30);
         grid.setVgap(40);
 
+        Button invis1 = new Button();
+        Button invis2 = new Button();
+        Button invis3 = new Button();
+        Button invis4 = new Button();
+        Button invis5 = new Button();
+        Button invis6 = new Button();
+        Button invis7 = new Button();
+
         grid.add(invis1, 0,0);
         grid.add(invis2, 1,0);
         grid.add(invis3, 2,0);
@@ -204,26 +201,26 @@ public class EventPanel extends BorderPane {
         grid.add(invis6, 4,1);
         grid.add(invis7, 4,5);
 
-        grid.add(b4, 3,0);
-        grid.add(b2, 3,1);
-        grid.add(b3, 3,2);
+        grid.add(strength3, 3,0);
+        grid.add(strength2, 3,1);
+        grid.add(strength1, 3,2);
         grid.add(steal, 3,3);
-        grid.add(b5, 3,4);
-        grid.add(b6, 3,5);
-        grid.add(b7, 3,6);
+        grid.add(energy1, 3,4);
+        grid.add(energy2, 3,5);
+        grid.add(energy3, 3,6);
 
-        grid.add(b8, 2,3);
-        grid.add(b9, 1,3);
-        grid.add(b10, 0,3);
+        grid.add(income1, 2,3);
+        grid.add(income2, 1,3);
+        grid.add(income3, 0,3);
 
-        grid.add(b11, 4,3);
-        grid.add(b12, 5,3);
-        grid.add(b13, 6,3);
+        grid.add(time1, 4,3);
+        grid.add(time2, 5,3);
+        grid.add(time3, 6,3);
 
-        grid.add(special1, 1, 1);
-        grid.add(special2, 1, 5);
-        grid.add(special3, 5, 1);
-        grid.add(special4, 5, 5);
+        grid.add(passive2, 1, 1);
+        grid.add(passive1, 1, 5);
+        grid.add(passive3, 5, 1);
+        grid.add(passive4, 5, 5);
 
         /* Creating space by adding invisible buttons */
         invis1.setVisible(false);
@@ -251,7 +248,7 @@ public class EventPanel extends BorderPane {
         return barPane;
     }
 
-    public Button getButtons(String key){
+    public Button getButton(String key){
         return buttons.get(key);
     }
 }
