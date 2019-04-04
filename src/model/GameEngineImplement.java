@@ -61,7 +61,7 @@ public class GameEngineImplement implements GameEngine {
                             if (temp != null)
                                 if (temp.equals(task)) {
                                     Platform.runLater(() ->{
-                                        progressBarResult(task.getParameter());
+                                        catchCompletedTask(task.getParameter());
                                     });
                                 }
                         }
@@ -76,6 +76,33 @@ public class GameEngineImplement implements GameEngine {
         };
         Thread m = new Thread(monitor);
         m.start();
+    }
+
+    private void catchCompletedTask(double parameter){
+        Set<String> keys = valueContainer.getValueMap().keySet();
+
+        for (String key: keys) {
+            if(valueContainer.getValue(key) == parameter){
+                switch (key){
+                    case "steal": case "income1": case "income2": case "income3":
+                        progressBarResult(parameter);
+                        break;
+                    case "time1":
+                        timeCut("time1");
+                        break;
+                    case "time2":
+                        timeCut("time2");
+                        break;
+                    case "time3":
+                        timeCut("time3");
+                        break;
+
+                }
+                System.out.println(valueContainer.getValue(key) + " " + key);
+            }
+
+        }
+
     }
 
     @Override
@@ -114,17 +141,22 @@ public class GameEngineImplement implements GameEngine {
         MyTask task = null;
         String time = b.getText();
 
-        switch(time){
+        if(b != null)
+            time = b.getText();
+
+        switch(time) {
             case "time1":
-                Set keys = valueContainer.getValueMap().keySet();
-                for (Iterator i = keys.iterator(); i.hasNext();) {
-                    String s = (String) i.next();
-                    if(s.equals("multiplier"))
-                        continue;
-                    double value = valueContainer.getValue(s);
-                    value = value * 0.9;
-                    valueContainer.setValue(s, value);
-                }
+                task = new MyTask(valueContainer.getValue("time1"), b, callBackGUI.getMainFrame());
+                callBackGUI.getMainFrame().getEventPanel().getButton("steal").setDisable(true);
+                break;
+            case "time2":
+                task = new MyTask(valueContainer.getValue("time2"), b, callBackGUI.getMainFrame());
+                callBackGUI.getMainFrame().getEventPanel().getButton("income1").setDisable(true);
+                break;
+            case "time3":
+                task = new MyTask(valueContainer.getValue("time3"), b, callBackGUI.getMainFrame());
+                callBackGUI.getMainFrame().getEventPanel().getButton("time3").setDisable(true);
+                break;
         }
 
         tasks.add(task);
@@ -159,5 +191,17 @@ public class GameEngineImplement implements GameEngine {
         callBackGUI.getMainFrame().getRessourcePanel().setGoldLabel(gold);
     }
 
+    private void timeCut(String key){
+
+            Set keys = valueContainer.getValueMap().keySet();
+            for (Iterator i = keys.iterator(); i.hasNext();) {
+                String s = (String) i.next();
+                if(s.equals("multiplier"))
+                    continue;
+                double value = valueContainer.getValue(s);
+                value = value * valueContainer.getValue(key);
+                valueContainer.setValue(s, value);
+            }
+        }
 
 }
