@@ -42,11 +42,12 @@ public class GameEngineImplement implements GameEngine {
                     List<MyTask> tasksToRun = new ArrayList<>(tasks);
                     for (MyTask task : tasksToRun) {
 
-                        if(task.getParameter() == valueContainer.getValue("steal") && task.isDone() && autoBasicUnlocked)
+                        if(task.getParameterKey().equals("steal") && task.isDone() && autoBasicUnlocked) {
                             steal(null);
+                        }
 
 
-                        if(task.getParameter() == valueContainer.getValue("autoIncome") && task.isDone()){
+                        if(task.getParameterKey().equals("autoIncome") && task.isDone()){
                             tasks.remove(task);
                             steal(callBackGUI.getMainFrame().getEventPanel().getButton("steal"));
                             autoBasicUnlocked = true;
@@ -61,7 +62,7 @@ public class GameEngineImplement implements GameEngine {
                             if (temp != null)
                                 if (temp.equals(task)) {
                                     Platform.runLater(() ->{
-                                        catchCompletedTask(task.getParameter());
+                                        catchCompletedTask(task.getParameterKey());
                                     });
                                 }
                         }
@@ -78,14 +79,14 @@ public class GameEngineImplement implements GameEngine {
         m.start();
     }
 
-    private void catchCompletedTask(double parameter){
+    private void catchCompletedTask(String parameterKey){
         Set<String> keys = valueContainer.getValueMap().keySet();
 
         for (String key: keys) {
-            if(valueContainer.getValue(key) == parameter){
+            if(key.equals(parameterKey)){
                 switch (key){
                     case "steal": case "income1": case "income2": case "income3":
-                        progressBarResult(parameter);
+                        progressBarResult(parameterKey);
                         break;
                     case "time1":
                         timeCut("time1");
@@ -98,7 +99,6 @@ public class GameEngineImplement implements GameEngine {
                         break;
 
                 }
-                System.out.println(valueContainer.getValue(key) + " " + key);
             }
 
         }
@@ -114,19 +114,19 @@ public class GameEngineImplement implements GameEngine {
 
         switch(income){
             case "steal":
-                task = new MyTask(valueContainer.getValue("steal"), b, callBackGUI.getMainFrame());
+                task = new MyTask("steal", b, callBackGUI.getMainFrame());
                 callBackGUI.getMainFrame().getEventPanel().getButton("steal").setDisable(true);
                 break;
             case "income1":
-                task = new MyTask(valueContainer.getValue("income1"), b, callBackGUI.getMainFrame());
+                task = new MyTask("income1", b, callBackGUI.getMainFrame());
                 callBackGUI.getMainFrame().getEventPanel().getButton("income1").setDisable(true);
                 break;
             case "income2":
-                task = new MyTask(valueContainer.getValue("income2"), b, callBackGUI.getMainFrame());
+                task = new MyTask("income2", b, callBackGUI.getMainFrame());
                 callBackGUI.getMainFrame().getEventPanel().getButton("income2").setDisable(true);
                 break;
             case "income3":
-                task = new MyTask(valueContainer.getValue("income3"), b, callBackGUI.getMainFrame());
+                task = new MyTask("income3", b, callBackGUI.getMainFrame());
                 callBackGUI.getMainFrame().getEventPanel().getButton("income3").setDisable(true);
                 break;
 
@@ -146,15 +146,15 @@ public class GameEngineImplement implements GameEngine {
 
         switch(time) {
             case "time1":
-                task = new MyTask(valueContainer.getValue("time1"), b, callBackGUI.getMainFrame());
+                task = new MyTask("time1", b, callBackGUI.getMainFrame());
                 callBackGUI.getMainFrame().getEventPanel().getButton("steal").setDisable(true);
                 break;
             case "time2":
-                task = new MyTask(valueContainer.getValue("time2"), b, callBackGUI.getMainFrame());
+                task = new MyTask("time3", b, callBackGUI.getMainFrame());
                 callBackGUI.getMainFrame().getEventPanel().getButton("income1").setDisable(true);
                 break;
             case "time3":
-                task = new MyTask(valueContainer.getValue("time3"), b, callBackGUI.getMainFrame());
+                task = new MyTask("time3", b, callBackGUI.getMainFrame());
                 callBackGUI.getMainFrame().getEventPanel().getButton("time3").setDisable(true);
                 break;
         }
@@ -165,7 +165,7 @@ public class GameEngineImplement implements GameEngine {
 
     @Override
     public void autoIncome(){
-        MyTask task = new MyTask(valueContainer.getValue("autoIncome"), null, callBackGUI.getMainFrame());
+        MyTask task = new MyTask("autoIncome", null, callBackGUI.getMainFrame());
 
         tasks.add(task);
         callBackGUI.getMainFrame().getEventPanel().getButton("steal").setDisable(true);
@@ -175,7 +175,7 @@ public class GameEngineImplement implements GameEngine {
     }
     @Override
     public void autoTime(){
-        MyTask task = new MyTask(valueContainer.getValue("autoIncome"), null, callBackGUI.getMainFrame());
+        MyTask task = new MyTask("autoIncome", null, callBackGUI.getMainFrame());
 
         tasks.add(task);
         callBackGUI.getMainFrame().getEventPanel().getButton("passive4").setDisable(true);
@@ -185,8 +185,8 @@ public class GameEngineImplement implements GameEngine {
 
 
 
-    @Override
-    public void progressBarResult(double time){
+    public void progressBarResult(String parameterKey){
+        double time = valueContainer.getValue(parameterKey);
         double gold = time * valueContainer.getValue("multiplier");
         callBackGUI.getMainFrame().getRessourcePanel().setGoldLabel(gold);
     }
@@ -199,9 +199,12 @@ public class GameEngineImplement implements GameEngine {
                 if(s.equals("multiplier"))
                     continue;
                 double value = valueContainer.getValue(s);
+                System.out.println(s + " " +  value);
                 value = value * valueContainer.getValue(key);
                 valueContainer.setValue(s, value);
             }
+
         }
+
 
 }

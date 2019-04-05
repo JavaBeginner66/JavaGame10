@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
+import model.ValueContainer;
 import model.interfaces.GameEngine;
 import view.EventPanel;
 import view.MainFrame;
@@ -14,14 +15,14 @@ import java.util.ArrayList;
 
 public class MyTask extends Task<Void> {
 
-    private double parameter;
+    private String key;
     private Button b;
     private MainFrame frame;
 
     private ProgressBar bar;
 
-    public MyTask(double parameter, Button b, MainFrame frame){
-        this.parameter = parameter;
+    public MyTask(String key, Button b, MainFrame frame){
+        this.key = key;
         this.b = b;
         this.frame = frame;
         addBar();
@@ -33,8 +34,8 @@ public class MyTask extends Task<Void> {
         try {
             if(b != null)
                 b.setDisable(true);
-            for (long i = 1; i <= parameter; i++) {
-                updateProgress(i, parameter);
+            for (long i = 1; i <= ValueContainer.getInstance().getValue(key); i++) {
+                updateProgress(i, ValueContainer.getInstance().getValue(key));
                 Thread.sleep(10);
             }
         } catch (InterruptedException e) {
@@ -58,7 +59,8 @@ public class MyTask extends Task<Void> {
         });
     }
 
-    public double getParameter() {
-        return parameter;
+    public String getParameterKey() {
+
+        return key;
     }
 }
