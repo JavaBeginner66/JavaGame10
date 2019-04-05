@@ -41,9 +41,9 @@ public class BuffPanelController implements EventHandler {
 
     private void goldIncrease(boolean state){
         if(state)
-            valueContainer.setValue("multiplier", 30);
+            valueContainer.setValue("goldMultiplier", 30);
         else
-            valueContainer.setValue("multiplier", 10);
+            valueContainer.setValue("goldMultiplier", 10);
 
     }
 }

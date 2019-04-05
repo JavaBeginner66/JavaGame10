@@ -90,10 +90,15 @@ public class EventPanel extends BorderPane {
         income2.setOnAction(listener);
         income3.setOnAction(listener);
         passive1.setOnAction(listener);
+        passive2.setOnAction(listener);
+        passive3.setOnAction(listener);
         passive4.setOnAction(listener);
         time1.setOnAction(listener);
         time2.setOnAction(listener);
         time3.setOnAction(listener);
+        energy1.setOnAction(listener);
+        energy2.setOnAction(listener);
+        energy3.setOnAction(listener);
     }
 
     private void setButtonStyle(TreeMap buttons){

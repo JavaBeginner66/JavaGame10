@@ -47,6 +47,9 @@ public interface GameEngine {
      */
     void autoTime();
 
+    void autoEnergy();
+
+    void energy(Button b);
 
 
 

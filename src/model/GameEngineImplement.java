@@ -35,8 +35,7 @@ public class GameEngineImplement implements GameEngine {
 
             @Override
             public void run() {
-                boolean running = true;
-                while(running) {
+                while(true) {
                     List<MyTask> tasksToRun = new ArrayList<>(tasks);
                     for (MyTask task : tasksToRun) {
 
@@ -46,6 +45,10 @@ public class GameEngineImplement implements GameEngine {
 
                         if(task.getParameterKey().equals("time1") && task.isDone() && ValueContainer.autoTimeUnlocked) {
                             time(null);
+                        }
+
+                        if(task.getParameterKey().equals("energy1") && task.isDone() && ValueContainer.autoEnergyUnlocked) {
+                            energy(null);
                         }
 
 
@@ -58,6 +61,11 @@ public class GameEngineImplement implements GameEngine {
                             tasks.remove(task);
                             time(callBackGUI.getMainFrame().getEventPanel().getButton("time1"));
                             ValueContainer.autoTimeUnlocked = true;
+                        }
+                        if(task.getParameterKey().equals("autoEnergy") && task.isDone()){
+                            tasks.remove(task);
+                            energy(callBackGUI.getMainFrame().getEventPanel().getButton("energy1"));
+                            ValueContainer.autoEnergyUnlocked = true;
                         }
                         if (task.isDone()) {
 
@@ -93,16 +101,25 @@ public class GameEngineImplement implements GameEngine {
             if(key.equals(parameterKey)){
                 switch (key){
                     case "steal":
-                        progressBarResult(ValueContainer.stealValue);
+                        incomeResult(ValueContainer.stealValue);
                         break;
                     case "income1":
-                        progressBarResult(ValueContainer.incomeValue1);
+                        incomeResult(ValueContainer.incomeValue1);
                         break;
                     case "income2":
-                        progressBarResult(ValueContainer.incomeValue2);
+                        incomeResult(ValueContainer.incomeValue2);
                         break;
                     case "income3":
-                        progressBarResult(ValueContainer.incomeValue3);
+                        incomeResult(ValueContainer.incomeValue3);
+                        break;
+                    case "energy1":
+                        energyResult(ValueContainer.energyValue1);
+                        break;
+                    case "energy2":
+                        energyResult(ValueContainer.energyValue2);
+                        break;
+                    case "energy3":
+                        energyResult(ValueContainer.energyValue3);
                         break;
                     case "time1": case "time2": case "time3":
                         timeCut(parameterKey);
@@ -173,6 +190,33 @@ public class GameEngineImplement implements GameEngine {
     }
 
     @Override
+    public void energy(Button b){
+        MyTask task = null;
+        String energy = "energy1";
+
+        if(b != null)
+            energy = b.getText();
+
+        switch(energy) {
+            case "energy1":
+                task = new MyTask("energy1", b, callBackGUI.getMainFrame());
+                callBackGUI.getMainFrame().getEventPanel().getButton("energy1").setDisable(true);
+                break;
+            case "energy2":
+                task = new MyTask("energy2", b, callBackGUI.getMainFrame());
+                callBackGUI.getMainFrame().getEventPanel().getButton("energy2").setDisable(true);
+                break;
+            case "energy3":
+                task = new MyTask("energy3", b, callBackGUI.getMainFrame());
+                callBackGUI.getMainFrame().getEventPanel().getButton("energy3").setDisable(true);
+                break;
+        }
+
+        tasks.add(task);
+        executor.execute(task);
+    }
+
+    @Override
     public void autoIncome(){
         MyTask task = new MyTask("autoIncome", null, callBackGUI.getMainFrame());
 
@@ -187,17 +231,33 @@ public class GameEngineImplement implements GameEngine {
         MyTask task = new MyTask("autoTime", null, callBackGUI.getMainFrame());
 
         tasks.add(task);
-        callBackGUI.getMainFrame().getEventPanel().getButton("passive4").setDisable(true);
+        callBackGUI.getMainFrame().getEventPanel().getButton("passive3").setDisable(true);
         callBackGUI.getMainFrame().getEventPanel().getButton("time1").setDisable(true);
+
+        executor.execute(task);
+    }
+
+    @Override
+    public void autoEnergy(){
+        MyTask task = new MyTask("autoEnergy", null, callBackGUI.getMainFrame());
+
+        tasks.add(task);
+        callBackGUI.getMainFrame().getEventPanel().getButton("passive4").setDisable(true);
+        callBackGUI.getMainFrame().getEventPanel().getButton("energy1").setDisable(true);
 
         executor.execute(task);
     }
 
 
 
-    public void progressBarResult(int value){
-        double gold = value * valueContainer.getValue("multiplier");
+    public void incomeResult(int value){
+        double gold = value * valueContainer.getValue("goldMultiplier");
         callBackGUI.getMainFrame().getRessourcePanel().setGoldLabel(gold);
+    }
+
+    public void energyResult(int value){
+        double energy = value * valueContainer.getValue("energyMultiplier");
+        callBackGUI.getMainFrame().getRessourcePanel().setEnergyLabel(energy);
     }
 
     private void timeCut(String key){

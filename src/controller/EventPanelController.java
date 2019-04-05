@@ -31,11 +31,17 @@ public class EventPanelController implements EventHandler<ActionEvent> {
             case "time1": case "time2": case "time3":
                 engine.time(b);
                 break;
+            case "energy1": case "energy2": case "energy3":
+                engine.energy(b);
+                break;
             case "passive1":
                 engine.autoIncome();
                 break;
-            case "passive4":
+            case "passive3":
                 engine.autoTime();
+                break;
+            case "passive4":
+                engine.autoEnergy();
                 break;
         }
     }
