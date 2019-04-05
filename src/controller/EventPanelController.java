@@ -25,26 +25,17 @@ public class EventPanelController implements EventHandler<ActionEvent> {
         String s = b.getText();
 
         switch(s){
-            case "steal":
+            case "steal": case "income1": case "income2": case "income3":
                 engine.steal(b);
                 break;
-            case "income1":
-                engine.steal(b);
-                break;
-            case "income2":
-                engine.steal(b);
-                break;
-            case "income3":
-                engine.steal(b);
-                break;
-            case "time1":
+            case "time1": case "time2": case "time3":
                 engine.time(b);
                 break;
             case "passive1":
                 engine.autoIncome();
                 break;
             case "passive4":
-                engine.autoIncome();
+                engine.autoTime();
                 break;
         }
     }

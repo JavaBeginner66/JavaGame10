@@ -92,11 +92,8 @@ public class EventPanel extends BorderPane {
         passive1.setOnAction(listener);
         passive4.setOnAction(listener);
         time1.setOnAction(listener);
-        /*
-        mission.setOnAction(listener);
-        stamina.setOnAction(listener);
-        autoAttack.setOnAction(listener);
-        */
+        time2.setOnAction(listener);
+        time3.setOnAction(listener);
     }
 
     private void setButtonStyle(TreeMap buttons){

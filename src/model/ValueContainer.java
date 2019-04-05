@@ -9,6 +9,19 @@ import java.util.TreeMap;
 
 public class ValueContainer {
 
+    public final static int stealValue = 100;
+    public final static int incomeValue1 = 300;
+    public final static int incomeValue2 = 500;
+    public final static int incomeValue3 = 1000;
+
+    public final static double timeCut1 = 0.99;
+    public final static double timeCut2 = 0.95;
+    public final static double timeCut3 = 0.90;
+
+    public static boolean autoStealUnlocked;
+    public static boolean autoTimeUnlocked;
+
+
     private static ValueContainer instance;
 
     private static TreeMap<String, Double> values = new TreeMap<>();
@@ -29,12 +42,12 @@ public class ValueContainer {
         double income2 = 500;
         double income3 = 1000;
 
-        double time1 = 0.9;
-        double time2 = 0.7;
-        double time3 = 0.5;
+        double time1 = 370;
+        double time2 = 280;
+        double time3 = 420;
 
         double autoIncome = 150;
-        double autoTime = 300;
+        double autoTime = 500;
 
         double goldMultiplier = 10;
 
@@ -56,11 +69,13 @@ public class ValueContainer {
         return values.get(key);
     }
 
+
+
     public TreeMap getValueMap(){
         return values;
     }
 
-    public void setValue(String key, double newValue){
+    public synchronized void setValue(String key, double newValue){
         if(values.containsKey(key)){
             values.put(key, newValue);
         }

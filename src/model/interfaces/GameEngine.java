@@ -46,14 +46,7 @@ public interface GameEngine {
      *  Method autoTime creates a task which automates time reduction on tasks
      */
     void autoTime();
-    /**
-     *  Method progressBarResult calculates the amount of ressources
-     *  player recieves based on what task is complete.
-     *
-     * @param time
-     *          How much time the progressbar spent
-     */
-    void progressBarResult(double time);
+
 
 
 
