@@ -18,6 +18,10 @@ public class ValueContainer {
     public final static int energyValue2 = 5;
     public final static int energyValue3 = 10;
 
+    public final static int strengthValue1 = 2;
+    public final static int strengthValue2 = 4;
+    public final static int strengthValue3 = 6;
+
     public final static double timeCut1 = 0.99;
     public final static double timeCut2 = 0.95;
     public final static double timeCut3 = 0.90;
@@ -25,6 +29,7 @@ public class ValueContainer {
     public static boolean autoStealUnlocked;
     public static boolean autoTimeUnlocked;
     public static boolean autoEnergyUnlocked;
+    public static boolean autoStrengthUnlocked;
 
 
     private static ValueContainer instance;
@@ -55,18 +60,25 @@ public class ValueContainer {
         double energy2 = 270;
         double energy3 = 430;
 
+        double strength1 = 145;
+        double strength2 = 275;
+        double strength3 = 435;
+
         double autoIncome = 150;
         double autoTime = 500;
         double autoEnergy = 300;
+        double autoStrength = 245;
 
-        double goldMultiplier = 10;
-        double energyMultiplier = 2;
+        double goldMultiplier = 1;
+        double energyMultiplier = 1;
+        double strengthMultiplier = 1;
 
         values.put("steal", steal);
         values.put("autoIncome", autoIncome);
         values.put("autoEnergy", autoEnergy);
         values.put("goldMultiplier", goldMultiplier);
-        values.put("energyMultiplier", goldMultiplier);
+        values.put("energyMultiplier", energyMultiplier);
+        values.put("strengthMultiplier", strengthMultiplier);
         values.put("income1", income1);
         values.put("income2", income2);
         values.put("income3", income3);
@@ -76,7 +88,11 @@ public class ValueContainer {
         values.put("energy1", energy1);
         values.put("energy2", energy2);
         values.put("energy3", energy3);
+        values.put("strength1", strength1);
+        values.put("strength2", strength2);
+        values.put("strength3", strength3);
         values.put("autoTime", autoTime);
+        values.put("autoStrength", autoStrength);
 
 
     }

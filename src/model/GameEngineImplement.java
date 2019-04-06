@@ -51,6 +51,10 @@ public class GameEngineImplement implements GameEngine {
                             energy(null);
                         }
 
+                        if(task.getParameterKey().equals("strength1") && task.isDone() && ValueContainer.autoStrengthUnlocked) {
+                            strength(null);
+                        }
+
 
                         if(task.getParameterKey().equals("autoIncome") && task.isDone()){
                             tasks.remove(task);
@@ -66,6 +70,11 @@ public class GameEngineImplement implements GameEngine {
                             tasks.remove(task);
                             energy(callBackGUI.getMainFrame().getEventPanel().getButton("energy1"));
                             ValueContainer.autoEnergyUnlocked = true;
+                        }
+                        if(task.getParameterKey().equals("autoStrength") && task.isDone()){
+                            tasks.remove(task);
+                            strength(callBackGUI.getMainFrame().getEventPanel().getButton("strength1"));
+                            ValueContainer.autoStrengthUnlocked = true;
                         }
                         if (task.isDone()) {
 
@@ -120,6 +129,15 @@ public class GameEngineImplement implements GameEngine {
                         break;
                     case "energy3":
                         energyResult(ValueContainer.energyValue3);
+                        break;
+                    case "strength1":
+                        strengthResult(ValueContainer.strengthValue1);
+                        break;
+                    case "strength2":
+                        strengthResult(ValueContainer.strengthValue2);
+                        break;
+                    case "strength3":
+                        strengthResult(ValueContainer.strengthValue3);
                         break;
                     case "time1": case "time2": case "time3":
                         timeCut(parameterKey);
@@ -217,6 +235,33 @@ public class GameEngineImplement implements GameEngine {
     }
 
     @Override
+    public void strength(Button b){
+        MyTask task = null;
+        String strength = "strength1";
+
+        if(b != null)
+            strength = b.getText();
+
+        switch(strength) {
+            case "strength1":
+                task = new MyTask("strength1", b, callBackGUI.getMainFrame());
+                callBackGUI.getMainFrame().getEventPanel().getButton("strength1").setDisable(true);
+                break;
+            case "strength2":
+                task = new MyTask("strength2", b, callBackGUI.getMainFrame());
+                callBackGUI.getMainFrame().getEventPanel().getButton("strength2").setDisable(true);
+                break;
+            case "strength3":
+                task = new MyTask("strength3", b, callBackGUI.getMainFrame());
+                callBackGUI.getMainFrame().getEventPanel().getButton("strength3").setDisable(true);
+                break;
+        }
+
+        tasks.add(task);
+        executor.execute(task);
+    }
+
+    @Override
     public void autoIncome(){
         MyTask task = new MyTask("autoIncome", null, callBackGUI.getMainFrame());
 
@@ -248,16 +293,32 @@ public class GameEngineImplement implements GameEngine {
         executor.execute(task);
     }
 
+    @Override
+    public void autoStrength(){
+        MyTask task = new MyTask("autoStrength", null, callBackGUI.getMainFrame());
+
+        tasks.add(task);
+        callBackGUI.getMainFrame().getEventPanel().getButton("passive2").setDisable(true);
+        callBackGUI.getMainFrame().getEventPanel().getButton("strength1").setDisable(true);
+
+        executor.execute(task);
+    }
 
 
-    public void incomeResult(int value){
+
+    private void incomeResult(int value){
         double gold = value * valueContainer.getValue("goldMultiplier");
         callBackGUI.getMainFrame().getRessourcePanel().setGoldLabel(gold);
     }
 
-    public void energyResult(int value){
+    private void energyResult(int value){
         double energy = value * valueContainer.getValue("energyMultiplier");
         callBackGUI.getMainFrame().getRessourcePanel().setEnergyLabel(energy);
+    }
+
+    private void strengthResult(int value){
+        double strength = value * valueContainer.getValue("strengthMultiplier");
+        callBackGUI.getMainFrame().getRessourcePanel().setStrengthLabel(strength);
     }
 
     private void timeCut(String key){
@@ -265,7 +326,11 @@ public class GameEngineImplement implements GameEngine {
             Set keys = valueContainer.getValueMap().keySet();
             for (Iterator i = keys.iterator(); i.hasNext();) {
                 String s = (String) i.next();
-                if(s.equals("multiplier"))
+                if(s.equals("goldMultiplier"))
+                    continue;
+                if(s.equals("energyMultiplier"))
+                    continue;
+                if(s.equals("strengthMultiplier"))
                     continue;
                 double value = valueContainer.getValue(s);
                 switch(key){
@@ -280,7 +345,7 @@ public class GameEngineImplement implements GameEngine {
                         break;
                 }
                 valueContainer.setValue(s, value);
-                System.out.println(s + " " + value);
+                //System.out.println(s + " " + value);
             }
 
         }

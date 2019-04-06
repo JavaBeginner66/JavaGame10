@@ -34,6 +34,9 @@ public class EventPanelController implements EventHandler<ActionEvent> {
             case "energy1": case "energy2": case "energy3":
                 engine.energy(b);
                 break;
+            case "strength1": case "strength2": case "strength3":
+                engine.strength(b);
+                break;
             case "passive1":
                 engine.autoIncome();
                 break;
@@ -42,6 +45,9 @@ public class EventPanelController implements EventHandler<ActionEvent> {
                 break;
             case "passive4":
                 engine.autoEnergy();
+                break;
+            case "passive2":
+                engine.autoStrength();
                 break;
         }
     }

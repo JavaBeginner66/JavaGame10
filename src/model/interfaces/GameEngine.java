@@ -47,9 +47,13 @@ public interface GameEngine {
      */
     void autoTime();
 
+    void autoStrength();
+
     void autoEnergy();
 
     void energy(Button b);
+
+    void strength(Button b);
 
 
 

@@ -11,9 +11,11 @@ public class RessourcePanel extends GridPane {
 
     private double gold;
     private double energy;
+    private double strength;
 
     private Label goldLabel;
     private Label energyLabel;
+    private Label strengthLabel;
 
     public RessourcePanel(){
         this.setStyle("-fx-background-color: #c4c4c4;");
@@ -26,12 +28,16 @@ public class RessourcePanel extends GridPane {
         goldLabel = new Label("Gold: ");
         goldLabel = GameEngineCallbackGUI.setLabelStyle(goldLabel, 20);
 
+        strengthLabel = new Label("Dps: ");
+        strengthLabel = GameEngineCallbackGUI.setLabelStyle(strengthLabel, 20);
+
         energyLabel = new Label("Energy: ");
         energyLabel = GameEngineCallbackGUI.setLabelStyle(energyLabel, 20);
 
 
         this.add(goldLabel, 0,0);
-        this.add(energyLabel, 0, 1);
+        this.add(strengthLabel, 0,1);
+        this.add(energyLabel, 0, 2);
     }
 
 
@@ -47,6 +53,11 @@ public class RessourcePanel extends GridPane {
     public void setEnergyLabel(double energy){
         this.energy += energy;
         this.energyLabel.setText("Energy: " + this.energy);
+    }
+
+    public void setStrengthLabel(double strength){
+        this.strength += strength;
+        this.strengthLabel.setText("Dps: " + this.strength);
     }
 
 
