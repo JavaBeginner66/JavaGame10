@@ -228,6 +228,9 @@ public class EventPanel extends BorderPane {
         grid.add(passive3, 5, 1);
         grid.add(passive4, 5, 5);
 
+        /* Disabling buttons */
+        buttonState(true, income1, income2, income3, energy1, energy2, energy3, strength1, strength2, strength3, time1, time2, time3, passive1, passive2, passive3, passive4);
+
         /* Creating space by adding invisible buttons */
         invis1.setVisible(false);
         invis2.setVisible(false);
@@ -252,6 +255,18 @@ public class EventPanel extends BorderPane {
 
     public HBox getBarPane() {
         return barPane;
+    }
+
+    public void buttonState(boolean state, Button... buttons){
+        for (Button button : buttons) {
+            button.setDisable(state);
+        }
+    }
+
+    public void buttonState(boolean state, String... key){
+        for (String aKey : key) {
+            this.buttons.get(aKey).setDisable(state);
+        }
     }
 
     public Button getButton(String key){
