@@ -39,41 +39,41 @@ public class GameEngineImplement implements GameEngine {
                     List<MyTask> tasksToRun = new ArrayList<>(tasks);
                     for (MyTask task : tasksToRun) {
 
-                        if(task.getParameterKey().equals("steal") && task.isDone() && ValueContainer.autoStealUnlocked) {
-                            steal(null);
+                        if(task.getParameterKey().equals("task") && task.isDone() && ValueContainer.autoStealUnlocked) {
+                            task(null, "task", "");
                         }
 
                         if(task.getParameterKey().equals("time1") && task.isDone() && ValueContainer.autoTimeUnlocked) {
-                            time(null);
+                            task(null, "time" , "1");
                         }
 
                         if(task.getParameterKey().equals("energy1") && task.isDone() && ValueContainer.autoEnergyUnlocked) {
-                            energy(null);
+                            task(null, "energy", "1");
                         }
 
                         if(task.getParameterKey().equals("strength1") && task.isDone() && ValueContainer.autoStrengthUnlocked) {
-                            strength(null);
+                            task(null, "strength", "1");
                         }
 
 
                         if(task.getParameterKey().equals("autoIncome") && task.isDone()){
                             tasks.remove(task);
-                            steal(callBackGUI.getMainFrame().getEventPanel().getButton("steal"));
+                            task(callBackGUI.getMainFrame().getEventPanel().getButton("task"), "task", "");
                             ValueContainer.autoStealUnlocked = true;
                         }
                         if(task.getParameterKey().equals("autoTime") && task.isDone()){
                             tasks.remove(task);
-                            time(callBackGUI.getMainFrame().getEventPanel().getButton("time1"));
+                            task(callBackGUI.getMainFrame().getEventPanel().getButton("time1"), "time", "1");
                             ValueContainer.autoTimeUnlocked = true;
                         }
                         if(task.getParameterKey().equals("autoEnergy") && task.isDone()){
                             tasks.remove(task);
-                            energy(callBackGUI.getMainFrame().getEventPanel().getButton("energy1"));
+                            task(callBackGUI.getMainFrame().getEventPanel().getButton("energy1"), "energy", "1");
                             ValueContainer.autoEnergyUnlocked = true;
                         }
                         if(task.getParameterKey().equals("autoStrength") && task.isDone()){
                             tasks.remove(task);
-                            strength(callBackGUI.getMainFrame().getEventPanel().getButton("strength1"));
+                            task(callBackGUI.getMainFrame().getEventPanel().getButton("strength1"), "strength", "1");
                             ValueContainer.autoStrengthUnlocked = true;
                         }
                         if (task.isDone()) {
@@ -109,35 +109,35 @@ public class GameEngineImplement implements GameEngine {
         for (String key: keys) {
             if(key.equals(parameterKey)){
                 switch (key){
-                    case "steal":
-                        incomeResult(ValueContainer.stealValue);
+                    case "task":
+                        taskResult(ValueContainer.stealValue, valueContainer.getValue("goldMultiplier"), "income");
                         break;
                     case "income1":
-                        incomeResult(ValueContainer.incomeValue1);
+                        taskResult(ValueContainer.incomeValue1, valueContainer.getValue("goldMultiplier"), "income");
                         break;
                     case "income2":
-                        incomeResult(ValueContainer.incomeValue2);
+                        taskResult(ValueContainer.incomeValue2, valueContainer.getValue("goldMultiplier"), "income");
                         break;
                     case "income3":
-                        incomeResult(ValueContainer.incomeValue3);
+                        taskResult(ValueContainer.incomeValue3, valueContainer.getValue("goldMultiplier"), "income");
                         break;
                     case "energy1":
-                        energyResult(ValueContainer.energyValue1);
+                        taskResult(ValueContainer.energyValue1, valueContainer.getValue("energyMultiplier"), "energy");
                         break;
                     case "energy2":
-                        energyResult(ValueContainer.energyValue2);
+                        taskResult(ValueContainer.energyValue2, valueContainer.getValue("energyMultiplier"), "energy");
                         break;
                     case "energy3":
-                        energyResult(ValueContainer.energyValue3);
+                        taskResult(ValueContainer.energyValue3, valueContainer.getValue("energyMultiplier"), "energy");
                         break;
                     case "strength1":
-                        strengthResult(ValueContainer.strengthValue1);
+                        taskResult(ValueContainer.strengthValue1, valueContainer.getValue("strengthMultiplier"), "strength");
                         break;
                     case "strength2":
-                        strengthResult(ValueContainer.strengthValue2);
+                        taskResult(ValueContainer.strengthValue2, valueContainer.getValue("strengthMultiplier"), "strength");
                         break;
                     case "strength3":
-                        strengthResult(ValueContainer.strengthValue3);
+                        taskResult(ValueContainer.strengthValue3, valueContainer.getValue("strengthMultiplier"), "strength");
                         break;
                     case "time1": case "time2": case "time3":
                         timeCut(parameterKey);
@@ -150,176 +150,51 @@ public class GameEngineImplement implements GameEngine {
     }
 
     @Override
-    public void steal(Button b){
+    public void task(Button b, String key, String keyNumber){
         MyTask task = null;
-        String income = "steal";
+        String value = key + keyNumber;
+
         if(b != null)
-            income = b.getText();
+            value = b.getText();
 
-        switch(income){
-            case "steal":
-                task = new MyTask("steal", b, callBackGUI.getMainFrame());
-                callBackGUI.getMainFrame().getEventPanel().getButton("steal").setDisable(true);
-                break;
-            case "income1":
-                task = new MyTask("income1", b, callBackGUI.getMainFrame());
-                callBackGUI.getMainFrame().getEventPanel().getButton("income1").setDisable(true);
-                break;
-            case "income2":
-                task = new MyTask("income2", b, callBackGUI.getMainFrame());
-                callBackGUI.getMainFrame().getEventPanel().getButton("income2").setDisable(true);
-                break;
-            case "income3":
-                task = new MyTask("income3", b, callBackGUI.getMainFrame());
-                callBackGUI.getMainFrame().getEventPanel().getButton("income3").setDisable(true);
-                break;
 
-        }
+        task = new MyTask(value, b, callBackGUI.getMainFrame());
+        callBackGUI.getMainFrame().getEventPanel().getButton(value).setDisable(true);
 
         tasks.add(task);
         executor.execute(task);
     }
 
+
+
     @Override
-    public void time(Button b){
-        MyTask task = null;
-        String time = "time1";
+    public void automateTask(String key, String passive, String buttonToDisable){
+        MyTask task = new MyTask(key, null, callBackGUI.getMainFrame());
 
-        if(b != null)
-            time = b.getText();
+        tasks.add(task);
 
-        switch(time) {
-            case "time1":
-                task = new MyTask("time1", b, callBackGUI.getMainFrame());
-                callBackGUI.getMainFrame().getEventPanel().getButton("time1").setDisable(true);
+        callBackGUI.getMainFrame().getEventPanel().getButton(passive).setDisable(true);
+        callBackGUI.getMainFrame().getEventPanel().getButton(buttonToDisable).setDisable(true);
+
+        executor.execute(task);
+    }
+
+    @Override
+    public void taskResult(int value, double multiplier, String attribute){
+        switch(attribute){
+            case "income":
+                callBackGUI.getMainFrame().getRessourcePanel().setGoldLabel(value*multiplier);
                 break;
-            case "time2":
-                task = new MyTask("time2", b, callBackGUI.getMainFrame());
-                callBackGUI.getMainFrame().getEventPanel().getButton("time2").setDisable(true);
+            case "energy":
+                callBackGUI.getMainFrame().getRessourcePanel().setEnergyLabel(value*multiplier);
                 break;
-            case "time3":
-                task = new MyTask("time3", b, callBackGUI.getMainFrame());
-                callBackGUI.getMainFrame().getEventPanel().getButton("time3").setDisable(true);
+            case "strength":
+                callBackGUI.getMainFrame().getRessourcePanel().setStrengthLabel(value*multiplier);
                 break;
         }
 
-        tasks.add(task);
-        executor.execute(task);
     }
 
-    @Override
-    public void energy(Button b){
-        MyTask task = null;
-        String energy = "energy1";
-
-        if(b != null)
-            energy = b.getText();
-
-        switch(energy) {
-            case "energy1":
-                task = new MyTask("energy1", b, callBackGUI.getMainFrame());
-                callBackGUI.getMainFrame().getEventPanel().getButton("energy1").setDisable(true);
-                break;
-            case "energy2":
-                task = new MyTask("energy2", b, callBackGUI.getMainFrame());
-                callBackGUI.getMainFrame().getEventPanel().getButton("energy2").setDisable(true);
-                break;
-            case "energy3":
-                task = new MyTask("energy3", b, callBackGUI.getMainFrame());
-                callBackGUI.getMainFrame().getEventPanel().getButton("energy3").setDisable(true);
-                break;
-        }
-
-        tasks.add(task);
-        executor.execute(task);
-    }
-
-    @Override
-    public void strength(Button b){
-        MyTask task = null;
-        String strength = "strength1";
-
-        if(b != null)
-            strength = b.getText();
-
-        switch(strength) {
-            case "strength1":
-                task = new MyTask("strength1", b, callBackGUI.getMainFrame());
-                callBackGUI.getMainFrame().getEventPanel().getButton("strength1").setDisable(true);
-                break;
-            case "strength2":
-                task = new MyTask("strength2", b, callBackGUI.getMainFrame());
-                callBackGUI.getMainFrame().getEventPanel().getButton("strength2").setDisable(true);
-                break;
-            case "strength3":
-                task = new MyTask("strength3", b, callBackGUI.getMainFrame());
-                callBackGUI.getMainFrame().getEventPanel().getButton("strength3").setDisable(true);
-                break;
-        }
-
-        tasks.add(task);
-        executor.execute(task);
-    }
-
-    @Override
-    public void autoIncome(){
-        MyTask task = new MyTask("autoIncome", null, callBackGUI.getMainFrame());
-
-        tasks.add(task);
-        callBackGUI.getMainFrame().getEventPanel().getButton("steal").setDisable(true);
-        callBackGUI.getMainFrame().getEventPanel().getButton("passive1").setDisable(true);
-
-        executor.execute(task);
-    }
-    @Override
-    public void autoTime(){
-        MyTask task = new MyTask("autoTime", null, callBackGUI.getMainFrame());
-
-        tasks.add(task);
-        callBackGUI.getMainFrame().getEventPanel().getButton("passive3").setDisable(true);
-        callBackGUI.getMainFrame().getEventPanel().getButton("time1").setDisable(true);
-
-        executor.execute(task);
-    }
-
-    @Override
-    public void autoEnergy(){
-        MyTask task = new MyTask("autoEnergy", null, callBackGUI.getMainFrame());
-
-        tasks.add(task);
-        callBackGUI.getMainFrame().getEventPanel().getButton("passive4").setDisable(true);
-        callBackGUI.getMainFrame().getEventPanel().getButton("energy1").setDisable(true);
-
-        executor.execute(task);
-    }
-
-    @Override
-    public void autoStrength(){
-        MyTask task = new MyTask("autoStrength", null, callBackGUI.getMainFrame());
-
-        tasks.add(task);
-        callBackGUI.getMainFrame().getEventPanel().getButton("passive2").setDisable(true);
-        callBackGUI.getMainFrame().getEventPanel().getButton("strength1").setDisable(true);
-
-        executor.execute(task);
-    }
-
-
-
-    private void incomeResult(int value){
-        double gold = value * valueContainer.getValue("goldMultiplier");
-        callBackGUI.getMainFrame().getRessourcePanel().setGoldLabel(gold);
-    }
-
-    private void energyResult(int value){
-        double energy = value * valueContainer.getValue("energyMultiplier");
-        callBackGUI.getMainFrame().getRessourcePanel().setEnergyLabel(energy);
-    }
-
-    private void strengthResult(int value){
-        double strength = value * valueContainer.getValue("strengthMultiplier");
-        callBackGUI.getMainFrame().getRessourcePanel().setStrengthLabel(strength);
-    }
 
     private void timeCut(String key){
 

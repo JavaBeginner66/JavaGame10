@@ -25,29 +25,56 @@ public class EventPanelController implements EventHandler<ActionEvent> {
         String s = b.getText();
 
         switch(s){
-            case "steal": case "income1": case "income2": case "income3":
-                engine.steal(b);
+            case "task":
+                engine.task(b, "task", "");
                 break;
-            case "time1": case "time2": case "time3":
-                engine.time(b);
+            case "income1":
+                engine.task(b, "income", "1");
                 break;
-            case "energy1": case "energy2": case "energy3":
-                engine.energy(b);
+            case "income2":
+                engine.task(b, "income", "2");
                 break;
-            case "strength1": case "strength2": case "strength3":
-                engine.strength(b);
+            case "income3":
+                engine.task(b, "income", "3");
+                break;
+            case "time1":
+                engine.task(b, "time", "1");
+                break;
+            case "time2":
+                engine.task(b, "time", "2");
+                break;
+            case "time3":
+                engine.task(b, "time", "3");
+                break;
+            case "energy1":
+                engine.task(b, "energy", "1");
+                break;
+            case "energy2":
+                engine.task(b, "energy", "2");
+                break;
+            case "energy3":
+                engine.task(b, "energy", "3");
+                break;
+            case "strength1":
+                engine.task(b, "strength", "1");
+                break;
+            case "strength2":
+                engine.task(b, "strength", "2");
+                break;
+            case "strength3":
+                engine.task(b, "strength", "3");
                 break;
             case "passive1":
-                engine.autoIncome();
+                engine.automateTask("autoIncome", "passive1", "task");
                 break;
             case "passive3":
-                engine.autoTime();
+                engine.automateTask("autoTime", "passive3", "time1");
                 break;
             case "passive4":
-                engine.autoEnergy();
+                engine.automateTask("autoEnergy", "passive4", "energy1");
                 break;
             case "passive2":
-                engine.autoStrength();
+                engine.automateTask("autoStrength", "passive2", "strength1");
                 break;
         }
     }

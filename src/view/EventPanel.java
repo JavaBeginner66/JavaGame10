@@ -15,7 +15,7 @@ import java.util.TreeMap;
 
 public class EventPanel extends BorderPane {
 
-    private Button steal, strength2, strength1, strength3, energy1, energy2, energy3, income1, income2, income3, time1, time2, time3,
+    private Button task, strength2, strength1, strength3, energy1, energy2, energy3, income1, income2, income3, time1, time2, time3,
             passive2, passive1, passive3, passive4;
     private TreeMap<String, Button> buttons;
 
@@ -50,7 +50,7 @@ public class EventPanel extends BorderPane {
 
         buttons = new TreeMap<>();
 
-        buttons.put("steal", steal = new Button("steal"));
+        buttons.put("task", task = new Button("task"));
         buttons.put("strength2", strength2 = new Button("strength2"));
         buttons.put("strength1", strength1 = new Button("strength1"));
         buttons.put("strength3", strength3 = new Button("strength3"));
@@ -85,7 +85,7 @@ public class EventPanel extends BorderPane {
     public void addListeners(MainFrame frame, GameEngine engine){
         EventPanelController listener = new EventPanelController(frame, engine);
 
-        steal.setOnAction(listener);
+        task.setOnAction(listener);
         income1.setOnAction(listener);
         income2.setOnAction(listener);
         income3.setOnAction(listener);
@@ -210,7 +210,7 @@ public class EventPanel extends BorderPane {
         grid.add(strength3, 3,0);
         grid.add(strength2, 3,1);
         grid.add(strength1, 3,2);
-        grid.add(steal, 3,3);
+        grid.add(task, 3,3);
         grid.add(energy1, 3,4);
         grid.add(energy2, 3,5);
         grid.add(energy3, 3,6);

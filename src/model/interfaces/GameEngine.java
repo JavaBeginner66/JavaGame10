@@ -18,42 +18,36 @@ public interface GameEngine {
 
     /**
      *
-     * Method steal starts a Task thread that generates the lowest gold income.
+     * Method task starts a Task thread that generates the lowest gold income.
      *
      *  @param b
      *      b is the button reference sent from the EventHandler.
      *      Used to disable/enable buttons before/after threads.
      */
-    void steal(Button b);
+    void task(Button b, String key, String keyNumber);
 
     /**
      *
-     * Method steal starts a Task thread that lowers the time spent on all tasks.
+     * Method task starts a Task thread that lowers the time spent on all tasks.
      *
      *  @param b
      *      b is the button reference sent from the EventHandler.
      *      Used to disable/enable buttons before/after threads.
      */
-    void time(Button b);
+
 
     /**
-     * Method autoIncome creates a Task thread that makes the steal Task
+     * Method autoIncome creates a Task thread that makes the task Task
      * automated on completion.
      */
-    void autoIncome();
+    void automateTask(String key, String passive, String buttonToDisable);
 
-    /**
-     *  Method autoTime creates a task which automates time reduction on tasks
-     */
-    void autoTime();
+    void taskResult(int value, double multiplier, String attribute);
 
-    void autoStrength();
 
-    void autoEnergy();
 
-    void energy(Button b);
 
-    void strength(Button b);
+
 
 
 

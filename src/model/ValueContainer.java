@@ -73,7 +73,7 @@ public class ValueContainer {
         double energyMultiplier = 1;
         double strengthMultiplier = 1;
 
-        values.put("steal", steal);
+        values.put("task", steal);
         values.put("autoIncome", autoIncome);
         values.put("autoEnergy", autoEnergy);
         values.put("goldMultiplier", goldMultiplier);
