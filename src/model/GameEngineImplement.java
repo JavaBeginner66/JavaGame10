@@ -1,8 +1,11 @@
 package model;
 
+import controller.GameControllerException;
 import controller.MyTask;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import model.interfaces.GameEngine;
 import view.EventPanel;
 import view.observers.GameEngineCallbackGUI;
@@ -40,7 +43,7 @@ public class GameEngineImplement implements GameEngine {
                     List<MyTask> tasksToRun = new ArrayList<>(tasks);
                     for (MyTask task : tasksToRun) {
 
-                        if(task.getParameterKey().equals("task") && task.isDone() && ValueContainer.autoStealUnlocked) {
+                        if(task.getParameterKey().equals("task") && task.isDone() && ValueContainer.autoTaskUnlocked) {
                             task(null, "task", "");
                         }
 
@@ -60,7 +63,7 @@ public class GameEngineImplement implements GameEngine {
                         if(task.getParameterKey().equals("autoIncome") && task.isDone()){
                             tasks.remove(task);
                             task(callBackGUI.getMainFrame().getEventPanel().getButton("task"), "task", "");
-                            ValueContainer.autoStealUnlocked = true;
+                            ValueContainer.autoTaskUnlocked = true;
                         }
                         if(task.getParameterKey().equals("autoTime") && task.isDone()){
                             tasks.remove(task);
@@ -110,6 +113,7 @@ public class GameEngineImplement implements GameEngine {
 
         for (String key: keys) {
             if(key.equals(parameterKey)){
+
                 switch (key){
                     case "task":
                         taskResult(ValueContainer.stealValue, valueContainer.getValue("goldMultiplier"), "income");
@@ -117,12 +121,12 @@ public class GameEngineImplement implements GameEngine {
                         break;
                     case "income1":
                         taskResult(ValueContainer.incomeValue1, valueContainer.getValue("goldMultiplier"), "income");
-                        event.getButton("income2").setDisable(false);
+                        runningTasksStayDisabled("income2");
                         checkUnlocks("energy1", "passive1");
                         break;
                     case "income2":
                         taskResult(ValueContainer.incomeValue2, valueContainer.getValue("goldMultiplier"), "income");
-                        event.getButton("income3").setDisable(false);
+                        runningTasksStayDisabled("income3");
                         checkUnlocks("strength2", "passive2");
                         break;
                     case "income3":
@@ -131,12 +135,12 @@ public class GameEngineImplement implements GameEngine {
                         break;
                     case "energy1":
                         taskResult(ValueContainer.energyValue1, valueContainer.getValue("energyMultiplier"), "energy");
-                        event.getButton("energy2").setDisable(false);
+                        runningTasksStayDisabled("energy2");
                         checkUnlocks("income1", "passive1");
                         break;
                     case "energy2":
                         taskResult(ValueContainer.energyValue2, valueContainer.getValue("energyMultiplier"), "energy");
-                        event.getButton("energy3").setDisable(false);
+                        runningTasksStayDisabled("energy3");
                         checkUnlocks("time2", "passive4");
                         break;
                     case "energy3":
@@ -144,11 +148,11 @@ public class GameEngineImplement implements GameEngine {
                         break;
                     case "strength1":
                         taskResult(ValueContainer.strengthValue1, valueContainer.getValue("strengthMultiplier"), "strength");
-                        event.getButton("strength2").setDisable(false);
+                        runningTasksStayDisabled("strength2");
                         break;
                     case "strength2":
                         taskResult(ValueContainer.strengthValue2, valueContainer.getValue("strengthMultiplier"), "strength");
-                        event.getButton("strength3").setDisable(false);
+                        runningTasksStayDisabled("strength3");
                         checkUnlocks("income2", "passive2");
                         break;
                     case "strength3":
@@ -157,11 +161,11 @@ public class GameEngineImplement implements GameEngine {
                         break;
                     case "time1":
                         timeCut(parameterKey);
-                        event.getButton("time2").setDisable(false);
+                        runningTasksStayDisabled("time2");
                         break;
                     case "time2":
                         timeCut(parameterKey);
-                        event.getButton("time3").setDisable(false);
+                        runningTasksStayDisabled("time3");
                         checkUnlocks("energy2", "passive4");
                         break;
                     case "time3":
@@ -175,9 +179,35 @@ public class GameEngineImplement implements GameEngine {
 
     }
 
+    /* Result of bad planning */
+    private void runningTasksStayDisabled(String key){
+        int incr = 0;
+        for (MyTask task : tasks) {
+            if (task.getParameterKey().equals(key))
+                incr++;
+        }
+        if(incr == 0)
+            callBackGUI.getMainFrame().getEventPanel().getButton(key).setDisable(false);
+
+    }
+
     private void checkUnlocks(String button, String passive){
         if(!callBackGUI.getMainFrame().getEventPanel().getButton(button).isDisabled())
-            callBackGUI.getMainFrame().getEventPanel().getButton(passive).setDisable(false);
+            switch(passive){
+                case "passive1":
+                    if(!ValueContainer.autoTaskUnlocked)
+                        callBackGUI.getMainFrame().getEventPanel().getButton(passive).setDisable(false);
+                case "passive2":
+                    if(!ValueContainer.autoStrengthUnlocked)
+                        callBackGUI.getMainFrame().getEventPanel().getButton(passive).setDisable(false);
+                case "passive3":
+                    if(!ValueContainer.autoTimeUnlocked)
+                        callBackGUI.getMainFrame().getEventPanel().getButton(passive).setDisable(false);
+                case "passive4":
+                    if(!ValueContainer.autoEnergyUnlocked)
+                        callBackGUI.getMainFrame().getEventPanel().getButton(passive).setDisable(false);
+            }
+
     }
 
 
@@ -186,29 +216,56 @@ public class GameEngineImplement implements GameEngine {
         MyTask task = null;
         String value = key + keyNumber;
 
-        if(b != null)
+        if (b != null)
             value = b.getText();
 
+        try {
 
-        task = new MyTask(value, b, callBackGUI.getMainFrame());
-        callBackGUI.getMainFrame().getEventPanel().getButton(value).setDisable(true);
+            if (!(callBackGUI.getMainFrame().getRessourcePanel().getGold() >=
+                    callBackGUI.getMainFrame().getEventPanel().getButton(value).getCost())) {
+                throw new GameControllerException("Insufficient amount of gold."+ "\n" + "Hover over a button too see requirements.");
+            } else {
 
-        tasks.add(task);
-        executor.execute(task);
+                task = new MyTask(value, b, callBackGUI.getMainFrame());
+                callBackGUI.getMainFrame().getEventPanel().getButton(value).setDisable(true);
+
+                tasks.add(task);
+                executor.execute(task);
+
+                callBackGUI.getMainFrame().getRessourcePanel().setGoldLabel(-callBackGUI.getMainFrame().getEventPanel().getButton(value).getCost());
+            }
+        }catch (GameControllerException e){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, e.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        }
+
     }
 
 
 
     @Override
     public void automateTask(String key, String passive, String buttonToDisable){
-        MyTask task = new MyTask(key, null, callBackGUI.getMainFrame());
 
-        tasks.add(task);
+        try{
+            if(!(callBackGUI.getMainFrame().getRessourcePanel().getGold() >=
+                    callBackGUI.getMainFrame().getEventPanel().getButton(passive).getCost())) {
+                throw new GameControllerException("Insufficient amount of gold" + "\n" + "Hover over a button too see requirements");
+            } else {
 
-        callBackGUI.getMainFrame().getEventPanel().getButton(passive).setDisable(true);
-        callBackGUI.getMainFrame().getEventPanel().getButton(buttonToDisable).setDisable(true);
+                MyTask task = new MyTask(key, null, callBackGUI.getMainFrame());
 
-        executor.execute(task);
+                tasks.add(task);
+
+                callBackGUI.getMainFrame().getEventPanel().getButton(passive).setDisable(true);
+                callBackGUI.getMainFrame().getEventPanel().getButton(buttonToDisable).setDisable(true);
+
+                executor.execute(task);
+            }
+        }catch (GameControllerException e){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, e.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        }
+
     }
 
     @Override

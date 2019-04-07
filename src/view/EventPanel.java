@@ -15,9 +15,9 @@ import java.util.TreeMap;
 
 public class EventPanel extends BorderPane {
 
-    private Button task, strength2, strength1, strength3, energy1, energy2, energy3, income1, income2, income3, time1, time2, time3,
+    private MyButton task, strength2, strength1, strength3, energy1, energy2, energy3, income1, income2, income3, time1, time2, time3,
             passive2, passive1, passive3, passive4;
-    private TreeMap<String, Button> buttons;
+    private TreeMap<String, MyButton> buttons;
 
     private HBox barPane;
 
@@ -50,23 +50,23 @@ public class EventPanel extends BorderPane {
 
         buttons = new TreeMap<>();
 
-        buttons.put("task", task = new Button("task"));
-        buttons.put("strength1", strength1 = new Button("strength1"));
-        buttons.put("strength2", strength2 = new Button("strength2"));
-        buttons.put("strength3", strength3 = new Button("strength3"));
-        buttons.put("energy1", energy1 = new Button("energy1"));
-        buttons.put("energy2", energy2 = new Button("energy2"));
-        buttons.put("energy3", energy3 = new Button("energy3"));
-        buttons.put("income1", income1 = new Button("income1"));
-        buttons.put("income2", income2 = new Button("income2"));
-        buttons.put("income3", income3 = new Button("income3"));
-        buttons.put("time1", time1 = new Button("time1"));
-        buttons.put("time2", time2 = new Button("time2"));
-        buttons.put("time3", time3 = new Button("time3"));
-        buttons.put("passive2", passive2 = new Button("passive2"));
-        buttons.put("passive1", passive1 = new Button("passive1"));
-        buttons.put("passive3", passive3 = new Button("passive3"));
-        buttons.put("passive4", passive4 = new Button("passive4"));
+        buttons.put("task", task = new MyButton("task", null, 0, 0));
+        buttons.put("income1", income1 = new MyButton("income1", null, 1, 100));
+        buttons.put("income2", income2 = new MyButton("income2", null, 2, 500));
+        buttons.put("income3", income3 = new MyButton("income3", null, 3, 800));
+        buttons.put("strength1", strength1 = new MyButton("strength1", null, 4, 500));
+        buttons.put("strength2", strength2 = new MyButton("strength2", null, 5, 3000));
+        buttons.put("strength3", strength3 = new MyButton("strength3", null, 6, 8000));
+        buttons.put("energy1", energy1 = new MyButton("energy1", null, 7, 1000));
+        buttons.put("energy2", energy2 = new MyButton("energy2", null, 8, 5000));
+        buttons.put("energy3", energy3 = new MyButton("energy3", null, 9, 15000));
+        buttons.put("time1", time1 = new MyButton("time1", null, 10, 50000));
+        buttons.put("time2", time2 = new MyButton("time2", null, 11, 300000));
+        buttons.put("time3", time3 = new MyButton("time3", null, 12, 1000000));
+        buttons.put("passive1", passive1 = new MyButton("passive1", null, 13, 300000));
+        buttons.put("passive2", passive2 = new MyButton("passive2", null, 14, 1000000));
+        buttons.put("passive3", passive3 = new MyButton("passive3", null, 15, 5000000));
+        buttons.put("passive4", passive4 = new MyButton("passive4", null, 16, 10000000));
 
 
     }
@@ -269,7 +269,7 @@ public class EventPanel extends BorderPane {
         }
     }
 
-    public Button getButton(String key){
+    public MyButton getButton(String key){
         return buttons.get(key);
     }
 }

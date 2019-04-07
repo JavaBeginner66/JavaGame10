@@ -24,7 +24,7 @@ public class ClickerGameClient extends Application {
 
 
 
-        Scene scene = new Scene(mainFrame, 800, 400);
+        Scene scene = new Scene(mainFrame, 1000, 600);
         stage.setTitle("ClickerGame");
         stage.setScene(scene);
         stage.show();

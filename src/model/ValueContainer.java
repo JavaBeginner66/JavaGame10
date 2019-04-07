@@ -9,10 +9,10 @@ import java.util.TreeMap;
 
 public class ValueContainer {
 
-    public final static int stealValue = 100;
-    public final static int incomeValue1 = 300;
-    public final static int incomeValue2 = 500;
-    public final static int incomeValue3 = 1000;
+    public final static int stealValue = 1000000;
+    public final static int incomeValue1 = 400;
+    public final static int incomeValue2 = 1000;
+    public final static int incomeValue3 = 1600;
 
     public final static int energyValue1 = 3;
     public final static int energyValue2 = 5;
@@ -23,10 +23,10 @@ public class ValueContainer {
     public final static int strengthValue3 = 6;
 
     public final static double timeCut1 = 0.99;
-    public final static double timeCut2 = 0.95;
-    public final static double timeCut3 = 0.90;
+    public final static double timeCut2 = 0.98;
+    public final static double timeCut3 = 0.95;
 
-    public static boolean autoStealUnlocked;
+    public static boolean autoTaskUnlocked;
     public static boolean autoTimeUnlocked;
     public static boolean autoEnergyUnlocked;
     public static boolean autoStrengthUnlocked;
@@ -47,27 +47,30 @@ public class ValueContainer {
     }
 
     private static void mapValues(){
-        double steal = 100;
+
+        /* The parameter value that gets sent into a task. 100 = 1 sec */
+
+        double steal = 500;
         double income1 = 300;
-        double income2 = 500;
-        double income3 = 1000;
+        double income2 = 900;
+        double income3 = 18000;
 
-        double time1 = 370;
-        double time2 = 280;
-        double time3 = 420;
+        double time1 = 300000;
+        double time2 = 900000;
+        double time3 = 1600000;
 
-        double energy1 = 120;
-        double energy2 = 270;
-        double energy3 = 430;
+        double energy1 = 6000;
+        double energy2 = 18000;
+        double energy3 = 72000;
 
-        double strength1 = 145;
-        double strength2 = 275;
-        double strength3 = 435;
+        double strength1 = 18000;
+        double strength2 = 72000;
+        double strength3 = 144000;
 
-        double autoIncome = 150;
-        double autoTime = 500;
-        double autoEnergy = 300;
-        double autoStrength = 245;
+        double autoIncome = 1000000;
+        double autoTime = 10000000;
+        double autoEnergy = 5000000;
+        double autoStrength = 8000000;
 
         double goldMultiplier = 1;
         double energyMultiplier = 1;

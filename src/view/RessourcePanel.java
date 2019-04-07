@@ -60,5 +60,15 @@ public class RessourcePanel extends GridPane {
         this.strengthLabel.setText("Dps: " + this.strength);
     }
 
+    public double getGold() {
+        return gold;
+    }
 
+    public double getEnergy() {
+        return energy;
+    }
+
+    public double getStrength() {
+        return strength;
+    }
 }
