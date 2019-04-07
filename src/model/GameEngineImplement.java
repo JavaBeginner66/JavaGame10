@@ -4,6 +4,7 @@ import controller.MyTask;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import model.interfaces.GameEngine;
+import view.EventPanel;
 import view.observers.GameEngineCallbackGUI;
 
 import java.util.ArrayList;
@@ -105,42 +106,67 @@ public class GameEngineImplement implements GameEngine {
 
     private void catchCompletedTask(String parameterKey){
         Set<String> keys = valueContainer.getValueMap().keySet();
+        EventPanel event = callBackGUI.getMainFrame().getEventPanel();
 
         for (String key: keys) {
             if(key.equals(parameterKey)){
                 switch (key){
                     case "task":
                         taskResult(ValueContainer.stealValue, valueContainer.getValue("goldMultiplier"), "income");
+                        event.buttonState(false, "income1", "strength1", "time1", "energy1");
                         break;
                     case "income1":
                         taskResult(ValueContainer.incomeValue1, valueContainer.getValue("goldMultiplier"), "income");
+                        event.getButton("income2").setDisable(false);
+                        checkUnlocks("energy1", "passive1");
                         break;
                     case "income2":
                         taskResult(ValueContainer.incomeValue2, valueContainer.getValue("goldMultiplier"), "income");
+                        event.getButton("income3").setDisable(false);
+                        checkUnlocks("strength2", "passive2");
                         break;
                     case "income3":
                         taskResult(ValueContainer.incomeValue3, valueContainer.getValue("goldMultiplier"), "income");
+                        event.getButton("passive1").setDisable(false);
                         break;
                     case "energy1":
                         taskResult(ValueContainer.energyValue1, valueContainer.getValue("energyMultiplier"), "energy");
+                        event.getButton("energy2").setDisable(false);
+                        checkUnlocks("income1", "passive1");
                         break;
                     case "energy2":
                         taskResult(ValueContainer.energyValue2, valueContainer.getValue("energyMultiplier"), "energy");
+                        event.getButton("energy3").setDisable(false);
+                        checkUnlocks("time2", "passive4");
                         break;
                     case "energy3":
                         taskResult(ValueContainer.energyValue3, valueContainer.getValue("energyMultiplier"), "energy");
                         break;
                     case "strength1":
                         taskResult(ValueContainer.strengthValue1, valueContainer.getValue("strengthMultiplier"), "strength");
+                        event.getButton("strength2").setDisable(false);
                         break;
                     case "strength2":
                         taskResult(ValueContainer.strengthValue2, valueContainer.getValue("strengthMultiplier"), "strength");
+                        event.getButton("strength3").setDisable(false);
+                        checkUnlocks("income2", "passive2");
                         break;
                     case "strength3":
                         taskResult(ValueContainer.strengthValue3, valueContainer.getValue("strengthMultiplier"), "strength");
+                        checkUnlocks("time3", "passive3");
                         break;
-                    case "time1": case "time2": case "time3":
+                    case "time1":
                         timeCut(parameterKey);
+                        event.getButton("time2").setDisable(false);
+                        break;
+                    case "time2":
+                        timeCut(parameterKey);
+                        event.getButton("time3").setDisable(false);
+                        checkUnlocks("energy2", "passive4");
+                        break;
+                    case "time3":
+                        timeCut(parameterKey);
+                        checkUnlocks("strength3", "passive3");
                         break;
                 }
             }
@@ -148,6 +174,12 @@ public class GameEngineImplement implements GameEngine {
         }
 
     }
+
+    private void checkUnlocks(String button, String passive){
+        if(!callBackGUI.getMainFrame().getEventPanel().getButton(button).isDisabled())
+            callBackGUI.getMainFrame().getEventPanel().getButton(passive).setDisable(false);
+    }
+
 
     @Override
     public void task(Button b, String key, String keyNumber){

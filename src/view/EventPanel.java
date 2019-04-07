@@ -51,8 +51,8 @@ public class EventPanel extends BorderPane {
         buttons = new TreeMap<>();
 
         buttons.put("task", task = new Button("task"));
-        buttons.put("strength2", strength2 = new Button("strength2"));
         buttons.put("strength1", strength1 = new Button("strength1"));
+        buttons.put("strength2", strength2 = new Button("strength2"));
         buttons.put("strength3", strength3 = new Button("strength3"));
         buttons.put("energy1", energy1 = new Button("energy1"));
         buttons.put("energy2", energy2 = new Button("energy2"));
