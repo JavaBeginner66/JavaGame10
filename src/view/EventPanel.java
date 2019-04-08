@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import model.ValueContainer;
 import model.interfaces.GameEngine;
 
 import java.util.Iterator;
@@ -50,23 +51,24 @@ public class EventPanel extends BorderPane {
 
         buttons = new TreeMap<>();
 
-        buttons.put("task", task = new MyButton("task", null, 0, 0));
-        buttons.put("income1", income1 = new MyButton("income1", null, 1, 100));
-        buttons.put("income2", income2 = new MyButton("income2", null, 2, 500));
-        buttons.put("income3", income3 = new MyButton("income3", null, 3, 800));
-        buttons.put("strength1", strength1 = new MyButton("strength1", null, 4, 500));
-        buttons.put("strength2", strength2 = new MyButton("strength2", null, 5, 3000));
-        buttons.put("strength3", strength3 = new MyButton("strength3", null, 6, 8000));
-        buttons.put("energy1", energy1 = new MyButton("energy1", null, 7, 1000));
-        buttons.put("energy2", energy2 = new MyButton("energy2", null, 8, 5000));
-        buttons.put("energy3", energy3 = new MyButton("energy3", null, 9, 15000));
-        buttons.put("time1", time1 = new MyButton("time1", null, 10, 50000));
-        buttons.put("time2", time2 = new MyButton("time2", null, 11, 300000));
-        buttons.put("time3", time3 = new MyButton("time3", null, 12, 1000000));
-        buttons.put("passive1", passive1 = new MyButton("passive1", null, 13, 300000));
-        buttons.put("passive2", passive2 = new MyButton("passive2", null, 14, 1000000));
-        buttons.put("passive3", passive3 = new MyButton("passive3", null, 15, 5000000));
-        buttons.put("passive4", passive4 = new MyButton("passive4", null, 16, 10000000));
+
+        buttons.put("task", task = new MyButton("task", null, 0, 0, "Starts a task that unlocks income1 and gives you " + ValueContainer.taskValue + " gold on completion" + "\n" + "Task takes " + ValueContainer.getInstance().getValue("task")/100 + " sec"));
+        buttons.put("income1", income1 = new MyButton("income1", null, 1, 100,"Starts a task that unlocks income2 and gives you " + ValueContainer.incomeValue1 + " gold on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("income1")/100 + " sec"));
+        buttons.put("income2", income2 = new MyButton("income2", null, 2, 500,"Starts a task that unlocks income3 and gives you " + ValueContainer.incomeValue2 + " gold on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("income2")/100 + " sec"));
+        buttons.put("income3", income3 = new MyButton("income3", null, 3, 800, "Gives you "+ ValueContainer.incomeValue3  + " gold on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("income3")/100 + " sec"));
+        buttons.put("strength1", strength1 = new MyButton("strength1", null, 4, 500, "Starts a task that unlocks strength2 and gives you " + ValueContainer.strengthValue1 + " strength on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("strength1")/100 + " sec"));
+        buttons.put("strength2", strength2 = new MyButton("strength2", null, 5, 3000, "Starts a task that unlocks strength3 and gives you " + ValueContainer.strengthValue2 + " strength on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("strength2")/100 + " sec"));
+        buttons.put("strength3", strength3 = new MyButton("strength3", null, 6, 8000, "Gives you " + ValueContainer.strengthValue3  + " strength on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("strength3")/100 + " sec"));
+        buttons.put("energy1", energy1 = new MyButton("energy1", null, 7, 1000, "Starts a task that unlocks energy2 and gives you " + ValueContainer.energyValue1 + " energy on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("energy1")/100 + " sec"));
+        buttons.put("energy2", energy2 = new MyButton("energy2", null, 8, 5000, "Starts a task that unlocks energy3 and gives you " + ValueContainer.energyValue2 + " energy on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("energy2")/100 + " sec"));
+        buttons.put("energy3", energy3 = new MyButton("energy3", null, 9, 15000, "Gives you " + ValueContainer.energyValue3  + " energy on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("energy3")/100 + " sec"));
+        buttons.put("time1", time1 = new MyButton("time1", null, 10, 50000, "Starts a task that unlocks time2 and gives all tasks " + ValueContainer.timeCut1 + " % time reduction"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("time1")/100 + " sec"));
+        buttons.put("time2", time2 = new MyButton("time2", null, 11, 300000, "Starts a task that unlocks time3 and gives all tasks " + ValueContainer.timeCut2 + " % time reduction"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("time2")/100 + " sec"));
+        buttons.put("time3", time3 = new MyButton("time3", null, 12, 1000000, "Gives all tasks " + ValueContainer.timeCut3  + " % time reduction"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("time3")/100 + " sec"));
+        buttons.put("passive1", passive1 = new MyButton("passive1", null, 13, 300000, "Starts a task that automates income1 on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("autoIncome")/100 + " sec"));
+        buttons.put("passive2", passive2 = new MyButton("passive2", null, 14, 1000000, "Starts a task that automates time1 on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("autoTime")/100 + " sec"));
+        buttons.put("passive3", passive3 = new MyButton("passive3", null, 15, 5000000, "Starts a task that automates strength1 on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("autoStrength")/100 + " sec"));
+        buttons.put("passive4", passive4 = new MyButton("passive4", null, 16, 10000000, "Starts a task that automates energy1 on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("autoEnergy")/100 + " sec"));
 
 
     }
@@ -149,19 +151,20 @@ public class EventPanel extends BorderPane {
                 + "-fx-base: #AE3522; "
                 + "-fx-text-fill: orange;";
 
-        Tooltip tp = new Tooltip();
-        tp.setStyle(tooltipStyle);
+
+
 
         Set keys = buttons.keySet();
         for (Iterator i = keys.iterator(); i.hasNext();) {
             String s = (String) i.next();
-            Button b = (Button) buttons.get(s);
+            MyButton b = (MyButton) buttons.get(s);
             b.setStyle(buttonStyle);
 
+            Tooltip tpText = new Tooltip();
+            tpText.setText("Cost: " + b.getCost() + " gold " + "\n" + b.getDescription());
+            tpText.setStyle(tooltipStyle);
 
-            tp.setText("Get correct info");
-
-            b.setTooltip(tp);
+            b.setTooltip(tpText);
 
             b.setMinHeight(35);
             b.setMinWidth(100);
