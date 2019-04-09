@@ -2,12 +2,15 @@ package controller;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import model.ValueContainer;
 import model.interfaces.GameEngine;
 import view.EventPanel;
 import view.MainFrame;
+import view.observers.GameEngineCallbackGUI;
 
 import java.util.ArrayList;
 
@@ -20,6 +23,7 @@ public class MyTask extends Task<Void> {
     private MainFrame frame;
 
     private ProgressBar bar;
+    private Label barLabel;
 
     public MyTask(String key, Button b, MainFrame frame){
         this.key = key;
@@ -47,6 +51,7 @@ public class MyTask extends Task<Void> {
                 b.setDisable(false);
             Platform.runLater(() -> {
                 frame.getEventPanel().getBarPane().getChildren().remove(bar);
+                frame.getEventPanel().getDescriptionPane().getChildren().remove(barLabel);
             });
         }
         return null;
@@ -54,7 +59,11 @@ public class MyTask extends Task<Void> {
 
     private void addBar(){
         Platform.runLater(() ->{
+            barLabel = frame.getEventPanel().addBarLabel("  " + key + "   ");
+            GameEngineCallbackGUI.setLabelStyle(barLabel, 18);
             bar = frame.getEventPanel().addProgressBar();
+            bar.setStyle(GameEngineCallbackGUI.progressBarStyle);
+            bar.setPadding(new Insets(0,5,0,0));
             bar.progressProperty().bind(this.progressProperty());
         });
     }

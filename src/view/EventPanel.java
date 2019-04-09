@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import model.ValueContainer;
 import model.interfaces.GameEngine;
+import view.observers.GameEngineCallbackGUI;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -20,6 +21,8 @@ public class EventPanel extends BorderPane {
             passive2, passive1, passive3, passive4;
     private TreeMap<String, MyButton> buttons;
 
+    private VBox barContainer;
+    private HBox barDecription;
     private HBox barPane;
 
 
@@ -31,18 +34,16 @@ public class EventPanel extends BorderPane {
         /* Create ScrollPane and set it in center */
         ScrollPane sp = new ScrollPane();
         this.setCenter(sp);
-        /* Progressbars will spawn under button window */
-        this.setBottom(barPane = new HBox());
+        /* Progressbars will instanciate under button window */
+        this.setBottom(barContainer = new VBox());
+        barDecription = new HBox();
+        barPane = new HBox();
+        barContainer.getChildren().addAll(barDecription, barPane);
+        this.setPadding(new Insets(20,20,10,20));
 
-        this.setPadding(new Insets(20,20,20,20));
-
-        barPane.setMinHeight(40);
-        barPane.setPadding(new Insets(20,0,0,0));
-
+        barContainer.setMinHeight(50);
         /* Buttons GridPane is set inside of ScrollPane */
         sp.setContent(addButtons());
-        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         sp.setPannable(true);
 
     }
@@ -62,13 +63,13 @@ public class EventPanel extends BorderPane {
         buttons.put("energy1", energy1 = new MyButton("energy1", null, 7, 1000, "Starts a task that unlocks energy2 and gives you " + ValueContainer.energyValue1 + " energy on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("energy1")/100 + " sec"));
         buttons.put("energy2", energy2 = new MyButton("energy2", null, 8, 5000, "Starts a task that unlocks energy3 and gives you " + ValueContainer.energyValue2 + " energy on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("energy2")/100 + " sec"));
         buttons.put("energy3", energy3 = new MyButton("energy3", null, 9, 15000, "Gives you " + ValueContainer.energyValue3  + " energy on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("energy3")/100 + " sec"));
-        buttons.put("time1", time1 = new MyButton("time1", null, 10, 50000, "Starts a task that unlocks time2 and gives all tasks " + ValueContainer.timeCut1 + " % time reduction"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("time1")/100 + " sec"));
-        buttons.put("time2", time2 = new MyButton("time2", null, 11, 300000, "Starts a task that unlocks time3 and gives all tasks " + ValueContainer.timeCut2 + " % time reduction"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("time2")/100 + " sec"));
-        buttons.put("time3", time3 = new MyButton("time3", null, 12, 1000000, "Gives all tasks " + ValueContainer.timeCut3  + " % time reduction"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("time3")/100 + " sec"));
-        buttons.put("passive1", passive1 = new MyButton("passive1", null, 13, 300000, "Starts a task that automates income1 on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("autoIncome")/100 + " sec"));
-        buttons.put("passive2", passive2 = new MyButton("passive2", null, 14, 1000000, "Starts a task that automates time1 on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("autoTime")/100 + " sec"));
-        buttons.put("passive3", passive3 = new MyButton("passive3", null, 15, 5000000, "Starts a task that automates strength1 on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("autoStrength")/100 + " sec"));
-        buttons.put("passive4", passive4 = new MyButton("passive4", null, 16, 10000000, "Starts a task that automates energy1 on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("autoEnergy")/100 + " sec"));
+        buttons.put("time1", time1 = new MyButton("time1", null, 10, 50000, "Starts a task that unlocks time2 and gives all tasks " + GameEngineCallbackGUI.round((1-ValueContainer.timeCut1),2) + " % time reduction"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("time1")/100 + " sec"));
+        buttons.put("time2", time2 = new MyButton("time2", null, 11, 300000, "Starts a task that unlocks time3 and gives all tasks " + GameEngineCallbackGUI.round((1-ValueContainer.timeCut2),2) + " % time reduction"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("time2")/100 + " sec"));
+        buttons.put("time3", time3 = new MyButton("time3", null, 12, 1000000, "Gives all tasks " + GameEngineCallbackGUI.round((1-ValueContainer.timeCut3),2)  + " % time reduction"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("time3")/100 + " sec"));
+        buttons.put("passive1", passive1 = new MyButton("passive1", null, 13, 300000, "Starts a task that automates income1 on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("passive1")/100 + " sec"));
+        buttons.put("passive2", passive2 = new MyButton("passive2", null, 14, 1000000, "Starts a task that automates strength1 on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("passive2")/100 + " sec"));
+        buttons.put("passive3", passive3 = new MyButton("passive3", null, 15, 5000000, "Starts a task that automates time1 on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("passive3")/100 + " sec"));
+        buttons.put("passive4", passive4 = new MyButton("passive4", null, 16, 10000000, "Starts a task that automates energy1 on completion"+ "\n" + "Task takes " + ValueContainer.getInstance().getValue("passive4")/100 + " sec"));
 
 
     }
@@ -81,6 +82,12 @@ public class EventPanel extends BorderPane {
         barPane.getChildren().add(bar);
 
         return bar;
+    }
+    public Label addBarLabel(String desc){
+        Label label = new Label(desc);
+        barDecription.getChildren().add(label);
+
+        return label;
     }
 
 
@@ -109,60 +116,17 @@ public class EventPanel extends BorderPane {
 
     private void setButtonStyle(TreeMap buttons){
 
-        String buttonStyle = "-fx-background-color: \n" +
-                "        #090a0c,\n" +
-                "        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),\n" +
-                "        linear-gradient(#20262b, #191d22),\n" +
-                "        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));\n" +
-                "    -fx-background-radius: 4em;\n" +
-                    "-fx-min-width: 100px; " +
-                    "-fx-min-height: 50px; " +
-                    "-fx-max-width: 100px; " +
-                    "-fx-max-height: 50px;" +
-                "    -fx-background-insets: 0,1,2,0;\n" +
-                "    -fx-text-fill: white;\n" +
-                "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );\n" +
-                "    -fx-font-family: \"Monospace\";\n" +
-                "    -fx-text-fill: linear-gradient(white, #d0d0d0);\n" +
-                "    -fx-font-size: 14px;\n" +
-                "    -fx-padding: 5 5 5 5;" +
-                "    -fx-hover: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );";
-
-        String hoverStyle = "-fx-background-color: \n" +
-                "        #b2b8c4,\n" +
-                "        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),\n" +
-                "        linear-gradient(#20262b, #191d22),\n" +
-                "        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));\n" +
-                "    -fx-background-radius: 4em;\n" +
-                    "-fx-min-width: 100px; " +
-                    "-fx-min-height: 50px; " +
-                    "-fx-max-width: 100px; " +
-                    "-fx-max-height: 50px;" +
-                "    -fx-background-insets: 0,1,2,0;\n" +
-                "    -fx-text-fill: white;\n" +
-                "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );\n" +
-                "    -fx-font-family: \"Monospace\";\n" +
-                "    -fx-text-fill: linear-gradient(green, #d0d0d0);\n" +
-                "    -fx-font-size: 14px;\n" +
-                "    -fx-padding: 5 5 5 5;" +
-                "    -fx-hover: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );";
-
-        String tooltipStyle = "-fx-font-family: normal bold 2; "
-                + "-fx-base: #AE3522; "
-                + "-fx-text-fill: orange;";
-
-
-
 
         Set keys = buttons.keySet();
         for (Iterator i = keys.iterator(); i.hasNext();) {
             String s = (String) i.next();
             MyButton b = (MyButton) buttons.get(s);
-            b.setStyle(buttonStyle);
+            b.setStyle(GameEngineCallbackGUI.buttonStyle);
+            b.setFocusTraversable(false);
 
             Tooltip tpText = new Tooltip();
             tpText.setText("Cost: " + b.getCost() + " gold " + "\n" + b.getDescription());
-            tpText.setStyle(tooltipStyle);
+            tpText.setStyle(GameEngineCallbackGUI.tooltipStyle);
 
             b.setTooltip(tpText);
 
@@ -170,11 +134,11 @@ public class EventPanel extends BorderPane {
             b.setMinWidth(100);
 
             b.setOnMouseEntered(e->{
-                b.setStyle(hoverStyle);
+                b.setStyle(GameEngineCallbackGUI.hoverStyle);
             });
 
             b.setOnMouseExited(e->{
-                b.setStyle(buttonStyle);
+                b.setStyle(GameEngineCallbackGUI.buttonStyle);
             });
 
         }
@@ -258,6 +222,9 @@ public class EventPanel extends BorderPane {
 
     public HBox getBarPane() {
         return barPane;
+    }
+    public HBox getDescriptionPane() {
+        return barDecription;
     }
 
     public void buttonState(boolean state, Button... buttons){

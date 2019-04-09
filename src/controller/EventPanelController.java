@@ -65,16 +65,16 @@ public class EventPanelController implements EventHandler<ActionEvent> {
                 engine.task(b, "strength", "3");
                 break;
             case "passive1":
-                engine.automateTask("autoIncome", "passive1", "task");
-                break;
-            case "passive3":
-                engine.automateTask("autoTime", "passive3", "time1");
-                break;
-            case "passive4":
-                engine.automateTask("autoEnergy", "passive4", "energy1");
+                engine.automateTask("passive1", "passive1", "task");
                 break;
             case "passive2":
-                engine.automateTask("autoStrength", "passive2", "strength1");
+                engine.automateTask("passive2", "passive2", "strength1");
+                break;
+            case "passive3":
+                engine.automateTask("passive3", "passive3", "time1");
+                break;
+            case "passive4":
+                engine.automateTask("passive4", "passive4", "energy1");
                 break;
         }
     }

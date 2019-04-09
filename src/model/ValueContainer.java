@@ -9,7 +9,7 @@ import java.util.TreeMap;
 
 public class ValueContainer {
 
-    public final static int stealValue = 1000000;
+    public final static int taskValue = 1000000;
     public final static int incomeValue1 = 400;
     public final static int incomeValue2 = 1000;
     public final static int incomeValue3 = 1600;
@@ -50,35 +50,35 @@ public class ValueContainer {
 
         /* The parameter value that gets sent into a task. 100 = 1 sec */
 
-        double steal = 500;
+        double task = 100;
         double income1 = 300;
-        double income2 = 900;
-        double income3 = 18000;
+        double income2 = 350;
+        double income3 = 180;
 
-        double time1 = 300000;
-        double time2 = 900000;
-        double time3 = 1600000;
+        double time1 = 300;
+        double time2 = 900;
+        double time3 = 160;
 
-        double energy1 = 6000;
-        double energy2 = 18000;
-        double energy3 = 72000;
+        double energy1 = 600;
+        double energy2 = 180;
+        double energy3 = 720;
 
-        double strength1 = 18000;
-        double strength2 = 72000;
-        double strength3 = 144000;
+        double strength1 = 180;
+        double strength2 = 120;
+        double strength3 = 144;
 
-        double autoIncome = 1000000;
-        double autoTime = 10000000;
-        double autoEnergy = 5000000;
-        double autoStrength = 8000000;
+        double passive1 = 100;
+        double passive3 = 100;
+        double passive4 = 500;
+        double passive2 = 800;
 
         double goldMultiplier = 1;
         double energyMultiplier = 1;
         double strengthMultiplier = 1;
 
-        values.put("task", steal);
-        values.put("autoIncome", autoIncome);
-        values.put("autoEnergy", autoEnergy);
+        values.put("task", task);
+        values.put("passive1", passive1);
+        values.put("passive4", passive4);
         values.put("goldMultiplier", goldMultiplier);
         values.put("energyMultiplier", energyMultiplier);
         values.put("strengthMultiplier", strengthMultiplier);
@@ -94,8 +94,8 @@ public class ValueContainer {
         values.put("strength1", strength1);
         values.put("strength2", strength2);
         values.put("strength3", strength3);
-        values.put("autoTime", autoTime);
-        values.put("autoStrength", autoStrength);
+        values.put("passive3", passive3);
+        values.put("passive2", passive2);
 
 
     }

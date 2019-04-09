@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import model.interfaces.GameEngine;
 import view.EventPanel;
+import view.MyButton;
 import view.observers.GameEngineCallbackGUI;
 
 import java.util.ArrayList;
@@ -60,22 +61,22 @@ public class GameEngineImplement implements GameEngine {
                         }
 
 
-                        if(task.getParameterKey().equals("autoIncome") && task.isDone()){
+                        if(task.getParameterKey().equals("passive1") && task.isDone()){
                             tasks.remove(task);
                             task(callBackGUI.getMainFrame().getEventPanel().getButton("task"), "task", "");
                             ValueContainer.autoTaskUnlocked = true;
                         }
-                        if(task.getParameterKey().equals("autoTime") && task.isDone()){
+                        if(task.getParameterKey().equals("passive3") && task.isDone()){
                             tasks.remove(task);
                             task(callBackGUI.getMainFrame().getEventPanel().getButton("time1"), "time", "1");
                             ValueContainer.autoTimeUnlocked = true;
                         }
-                        if(task.getParameterKey().equals("autoEnergy") && task.isDone()){
+                        if(task.getParameterKey().equals("passive4") && task.isDone()){
                             tasks.remove(task);
                             task(callBackGUI.getMainFrame().getEventPanel().getButton("energy1"), "energy", "1");
                             ValueContainer.autoEnergyUnlocked = true;
                         }
-                        if(task.getParameterKey().equals("autoStrength") && task.isDone()){
+                        if(task.getParameterKey().equals("passive2") && task.isDone()){
                             tasks.remove(task);
                             task(callBackGUI.getMainFrame().getEventPanel().getButton("strength1"), "strength", "1");
                             ValueContainer.autoStrengthUnlocked = true;
@@ -116,8 +117,11 @@ public class GameEngineImplement implements GameEngine {
 
                 switch (key){
                     case "task":
-                        taskResult(ValueContainer.stealValue, valueContainer.getValue("goldMultiplier"), "income");
-                        event.buttonState(false, "income1", "strength1", "time1", "energy1");
+                        taskResult(ValueContainer.taskValue, valueContainer.getValue("goldMultiplier"), "income");
+                        runningTasksStayDisabled("income1");
+                        runningTasksStayDisabled("strength1");
+                        runningTasksStayDisabled("time1");
+                        runningTasksStayDisabled("energy1");
                         break;
                     case "income1":
                         taskResult(ValueContainer.incomeValue1, valueContainer.getValue("goldMultiplier"), "income");
@@ -131,7 +135,6 @@ public class GameEngineImplement implements GameEngine {
                         break;
                     case "income3":
                         taskResult(ValueContainer.incomeValue3, valueContainer.getValue("goldMultiplier"), "income");
-                        event.getButton("passive1").setDisable(false);
                         break;
                     case "energy1":
                         taskResult(ValueContainer.energyValue1, valueContainer.getValue("energyMultiplier"), "energy");
@@ -179,12 +182,13 @@ public class GameEngineImplement implements GameEngine {
 
     }
 
-    /* Result of bad planning */
     private void runningTasksStayDisabled(String key){
         int incr = 0;
         for (MyTask task : tasks) {
-            if (task.getParameterKey().equals(key))
-                incr++;
+            if (task.getParameterKey().equals(key)) {
+                incr = 1;
+                break;
+            }
         }
         if(incr == 0)
             callBackGUI.getMainFrame().getEventPanel().getButton(key).setDisable(false);
@@ -192,22 +196,31 @@ public class GameEngineImplement implements GameEngine {
     }
 
     private void checkUnlocks(String button, String passive){
-        if(!callBackGUI.getMainFrame().getEventPanel().getButton(button).isDisabled())
-            switch(passive){
-                case "passive1":
-                    if(!ValueContainer.autoTaskUnlocked)
-                        callBackGUI.getMainFrame().getEventPanel().getButton(passive).setDisable(false);
-                case "passive2":
-                    if(!ValueContainer.autoStrengthUnlocked)
-                        callBackGUI.getMainFrame().getEventPanel().getButton(passive).setDisable(false);
-                case "passive3":
-                    if(!ValueContainer.autoTimeUnlocked)
-                        callBackGUI.getMainFrame().getEventPanel().getButton(passive).setDisable(false);
-                case "passive4":
-                    if(!ValueContainer.autoEnergyUnlocked)
-                        callBackGUI.getMainFrame().getEventPanel().getButton(passive).setDisable(false);
-            }
+        if(!callBackGUI.getMainFrame().getEventPanel().getButton(button).isDisabled()) {
 
+            switch (passive) {
+                case "passive1":
+
+                    if (!ValueContainer.autoTaskUnlocked) {
+
+                        runningTasksStayDisabled(passive);
+                    }
+                    break;
+                case "passive2":
+                    if (!ValueContainer.autoStrengthUnlocked) {
+                        runningTasksStayDisabled(passive);
+                    }
+                    break;
+                case "passive3":
+                    if (!ValueContainer.autoTimeUnlocked)
+                        runningTasksStayDisabled(passive);
+                    break;
+                case "passive4":
+                    if (!ValueContainer.autoEnergyUnlocked)
+                        runningTasksStayDisabled(passive);
+                    break;
+            }
+        }
     }
 
 
@@ -223,7 +236,7 @@ public class GameEngineImplement implements GameEngine {
 
             if (!(callBackGUI.getMainFrame().getRessourcePanel().getGold() >=
                     callBackGUI.getMainFrame().getEventPanel().getButton(value).getCost())) {
-                throw new GameControllerException("Insufficient amount of gold."+ "\n" + "Hover over a button too see requirements.");
+                throw new GameControllerException("Insufficient amount of gold."+ "\n" + "Hover over a button to see requirements.");
             } else {
 
                 task = new MyTask(value, b, callBackGUI.getMainFrame());
@@ -232,7 +245,12 @@ public class GameEngineImplement implements GameEngine {
                 tasks.add(task);
                 executor.execute(task);
 
-                callBackGUI.getMainFrame().getRessourcePanel().setGoldLabel(-callBackGUI.getMainFrame().getEventPanel().getButton(value).getCost());
+                final String val = value;
+
+                Platform.runLater(()->{
+                    callBackGUI.getMainFrame().getRessourcePanel().setGoldLabel(-callBackGUI.getMainFrame().getEventPanel().getButton(val).getCost());
+                } );
+
             }
         }catch (GameControllerException e){
             Alert alert = new Alert(Alert.AlertType.INFORMATION, e.getMessage(), ButtonType.OK);
@@ -288,6 +306,7 @@ public class GameEngineImplement implements GameEngine {
     private void timeCut(String key){
 
             Set keys = valueContainer.getValueMap().keySet();
+            double timeReduction = 0;
             for (Iterator i = keys.iterator(); i.hasNext();) {
                 String s = (String) i.next();
                 if(s.equals("goldMultiplier"))
@@ -300,17 +319,20 @@ public class GameEngineImplement implements GameEngine {
                 switch(key){
                     case "time1":
                         value = value * ValueContainer.timeCut1;
+                        timeReduction = 1-ValueContainer.timeCut1;
                         break;
                     case "time2":
                         value = value * ValueContainer.timeCut2;
+                        timeReduction = 1-ValueContainer.timeCut2;
                         break;
                     case "time3":
                         value = value * ValueContainer.timeCut3;
+                        timeReduction = 1-ValueContainer.timeCut3;
                         break;
                 }
                 valueContainer.setValue(s, value);
-                //System.out.println(s + " " + value);
             }
+            callBackGUI.getMainFrame().getRessourcePanel().setTimeLabel(timeReduction);
 
         }
 
