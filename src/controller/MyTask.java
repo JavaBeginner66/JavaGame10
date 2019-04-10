@@ -59,13 +59,32 @@ public class MyTask extends Task<Void> {
 
     private void addBar(){
         Platform.runLater(() ->{
-            barLabel = frame.getEventPanel().addBarLabel("  " + key + "   ");
-            GameEngineCallbackGUI.setLabelStyle(barLabel, 18);
+            barLabel = frame.getEventPanel().addBarLabel(findIcon(key));
             bar = frame.getEventPanel().addProgressBar();
+            GameEngineCallbackGUI.setLabelStyle(barLabel, 18);
             bar.setStyle(GameEngineCallbackGUI.progressBarStyle);
             bar.setPadding(new Insets(0,5,0,0));
             bar.progressProperty().bind(this.progressProperty());
         });
+    }
+
+    private String findIcon(String key){
+        String img = "";
+        switch(key){
+            case "task": case "income1": case"income2": case"income3": case"passive1":
+                img =  frame.getRessourcePanel().getGoldImg();
+                break;
+            case "strength1": case"strength2": case"strength3": case"passive2":
+                img = frame.getRessourcePanel().getStrengthImg();
+                break;
+            case "energy1": case"energy2": case"energy3": case"passive4":
+                img = frame.getRessourcePanel().getEnergyImg();
+                break;
+            case"time1": case"time2": case"time3": case"passive3":
+                img = frame.getRessourcePanel().getTimeImg();
+
+        }
+        return img;
     }
 
     public String getParameterKey() {
