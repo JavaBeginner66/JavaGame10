@@ -21,6 +21,11 @@ public class RessourcePanel extends GridPane {
     private Label strengthLabel;
     private Label timeLabel;
 
+    private final String goldImg = "gold.png";
+    private final String strengthImg = "strength.png";
+    private final String energyImg = "energy.png";
+    private final String timeImg = "time.png";
+
     public RessourcePanel(){
         this.setStyle("-fx-background-color: #c4c4c4;");
         this.setPadding(new Insets(0,5,5,15));
@@ -29,16 +34,16 @@ public class RessourcePanel extends GridPane {
 
     private void addLabels(){
 
-        goldLabel = new Label("", new ImageView(new Image("gold.png")));
+        goldLabel = new Label("", new ImageView(new Image(goldImg)));
         goldLabel = GameEngineCallbackGUI.setLabelStyle(goldLabel, 20);
 
-        strengthLabel = new Label("", new ImageView(new Image("strength.png")));
+        strengthLabel = new Label("", new ImageView(new Image(strengthImg)));
         strengthLabel = GameEngineCallbackGUI.setLabelStyle(strengthLabel, 20);
 
-        energyLabel = new Label("", new ImageView(new Image("energy.png")));
+        energyLabel = new Label("", new ImageView(new Image(energyImg)));
         energyLabel = GameEngineCallbackGUI.setLabelStyle(energyLabel, 20);
 
-        timeLabel = new Label("", new ImageView(new Image("time.png")));
+        timeLabel = new Label("", new ImageView(new Image(timeImg)));
         timeLabel = GameEngineCallbackGUI.setLabelStyle(timeLabel, 20);
 
 
@@ -87,7 +92,20 @@ public class RessourcePanel extends GridPane {
     public double getStrength() {
         return strength;
     }
-    public double getTime(){
-        return time;
+
+    public String getGoldImg() {
+        return goldImg;
+    }
+
+    public String getStrengthImg() {
+        return strengthImg;
+    }
+
+    public String getEnergyImg() {
+        return energyImg;
+    }
+
+    public String getTimeImg() {
+        return timeImg;
     }
 }

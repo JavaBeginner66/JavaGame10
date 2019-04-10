@@ -4,6 +4,7 @@ import controller.EventPanelController;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import model.ValueContainer;
 import model.interfaces.GameEngine;
@@ -83,8 +84,8 @@ public class EventPanel extends BorderPane {
 
         return bar;
     }
-    public Label addBarLabel(String desc){
-        Label label = new Label(desc);
+    public Label addBarLabel(String img){
+        Label label = new Label("       ", new ImageView(new Image(img)));
         barDecription.getChildren().add(label);
 
         return label;

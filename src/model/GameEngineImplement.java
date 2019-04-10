@@ -201,15 +201,12 @@ public class GameEngineImplement implements GameEngine {
             switch (passive) {
                 case "passive1":
 
-                    if (!ValueContainer.autoTaskUnlocked) {
-
+                    if (!ValueContainer.autoTaskUnlocked)
                         runningTasksStayDisabled(passive);
-                    }
                     break;
                 case "passive2":
-                    if (!ValueContainer.autoStrengthUnlocked) {
+                    if (!ValueContainer.autoStrengthUnlocked)
                         runningTasksStayDisabled(passive);
-                    }
                     break;
                 case "passive3":
                     if (!ValueContainer.autoTimeUnlocked)
