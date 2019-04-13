@@ -93,6 +93,10 @@ public class RessourcePanel extends GridPane {
         return strength;
     }
 
+    public double getTime() {
+        return time;
+    }
+
     public String getGoldImg() {
         return goldImg;
     }

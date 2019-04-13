@@ -75,6 +75,7 @@ public class ValueContainer {
         double goldMultiplier = 1;
         double energyMultiplier = 1;
         double strengthMultiplier = 1;
+        double timeMultiplier = 1;
 
         values.put("task", task);
         values.put("passive1", passive1);
@@ -82,6 +83,7 @@ public class ValueContainer {
         values.put("goldMultiplier", goldMultiplier);
         values.put("energyMultiplier", energyMultiplier);
         values.put("strengthMultiplier", strengthMultiplier);
+        values.put("timeMultiplier", strengthMultiplier);
         values.put("income1", income1);
         values.put("income2", income2);
         values.put("income3", income3);
