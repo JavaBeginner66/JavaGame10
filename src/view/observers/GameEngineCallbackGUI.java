@@ -60,6 +60,11 @@ public class GameEngineCallbackGUI {
             + "-fx-base: #AE3522; "
             + "-fx-text-fill: orange;";
 
+    public final static String goldImg = "gold.png";
+    public final static String strengthImg = "strength.png";
+    public final static String energyImg = "energy.png";
+    public final static String timeImg = "time.png";
+
     public GameEngineCallbackGUI(MainFrame frame){
         this.mainFrame = frame;
     }
