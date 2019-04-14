@@ -14,7 +14,7 @@ public class ValueContainer {
     public final static int incomeValue2 = 1000;
     public final static int incomeValue3 = 1600;
 
-    public final static int energyValue1 = 3;
+    public final static int energyValue1 = 3000;
     public final static int energyValue2 = 5;
     public final static int energyValue3 = 10;
 
@@ -59,7 +59,7 @@ public class ValueContainer {
         double time2 = 900;
         double time3 = 160;
 
-        double energy1 = 600;
+        double energy1 = 50;
         double energy2 = 180;
         double energy3 = 720;
 

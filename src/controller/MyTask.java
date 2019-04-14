@@ -72,16 +72,16 @@ public class MyTask extends Task<Void> {
         String img = "";
         switch(key){
             case "task": case "income1": case"income2": case"income3": case"passive1":
-                img =  frame.getRessourcePanel().getGoldImg();
+                img = GameEngineCallbackGUI.goldImg;
                 break;
             case "strength1": case"strength2": case"strength3": case"passive2":
-                img = frame.getRessourcePanel().getStrengthImg();
+                img = GameEngineCallbackGUI.strengthImg;
                 break;
             case "energy1": case"energy2": case"energy3": case"passive4":
-                img = frame.getRessourcePanel().getEnergyImg();
+                img = GameEngineCallbackGUI.energyImg;
                 break;
             case"time1": case"time2": case"time3": case"passive3":
-                img = frame.getRessourcePanel().getTimeImg();
+                img = GameEngineCallbackGUI.timeImg;
 
         }
         return img;

@@ -7,6 +7,7 @@ import javafx.scene.control.CheckBox;
 import model.ValueContainer;
 import model.interfaces.GameEngine;
 import view.MainFrame;
+import view.MyCheckbox;
 
 public class BuffPanelController implements EventHandler {
 
@@ -23,33 +24,30 @@ public class BuffPanelController implements EventHandler {
 
     @Override
     public void handle(Event event) {
-        CheckBox s = (CheckBox)event.getSource();
-        String box = s.getText();
+        MyCheckbox s = (MyCheckbox)event.getSource();
+        int box = s.getID();
         boolean state = s.isSelected();
 
         switch(box){
-            case "1":
-                statsIncrease(state,"goldMultiplier", 5,  "buff1");
+            case 0:
+                statsIncrease(state,"goldMultiplier",  "buff1");
                 break;
-            case "2":
-                statsIncrease(state, "energyMultiplier", 4,  "buff2");
+            case 1:
+                statsIncrease(state, "energyMultiplier","buff2");
                 break;
-            case "3":
-                statsIncrease(state, "strengthMultiplier", 3,  "buff3");
+            case 2:
+                statsIncrease(state, "strengthMultiplier",  "buff3");
                 break;
-            case "4":
-                statsIncrease(state,"timeMultiplier", 2,  "buff4");
-                break;
-            case "5":
-                System.out.println("Box 5" + " " + state);
+            case 3:
+                statsIncrease(state,"timeMultiplier",  "buff4");
                 break;
 
         }
     }
 
-    private void statsIncrease(boolean state, String multiplier, int newValue, String buffType){
+    private void statsIncrease(boolean state, String multiplier, String buffType){
         if(state) {
-            valueContainer.setValue(multiplier, newValue);
+            valueContainer.setValue(multiplier, frame.getBuffPanel().getBuffValue());
             ressourceDrain(multiplier, buffType);
         }
         else {
@@ -67,28 +65,28 @@ public class BuffPanelController implements EventHandler {
                             try {
                                 switch(multiplier){
                                     case"goldMultiplier":
-                                        if(frame.getRessourcePanel().getEnergy() <= 10)
+                                        if(frame.getRessourcePanel().getEnergy() <= frame.getBuffPanel().getEnergyDrain())
                                             throw new GameControllerException("Not enough energy");
                                         else
-                                            frame.getRessourcePanel().setEnergyLabel(-10);
+                                            frame.getRessourcePanel().setEnergyLabel(-frame.getBuffPanel().getEnergyDrain());
                                         break;
                                     case"energyMultiplier":
-                                        if(frame.getRessourcePanel().getTime() <= 0.1)
+                                        if(frame.getRessourcePanel().getTime() <= frame.getBuffPanel().getTimeDrain())
                                             throw new GameControllerException("Not enough time reduction");
                                         else
-                                            frame.getRessourcePanel().setTimeLabel(-0.1);
+                                            frame.getRessourcePanel().setTimeLabel(-frame.getBuffPanel().getTimeDrain());
                                         break;
                                     case"strengthMultiplier":
-                                        if(frame.getRessourcePanel().getGold() <= 1000)
+                                        if(frame.getRessourcePanel().getGold() <= frame.getBuffPanel().getGoldDrain())
                                             throw new GameControllerException("Not enough gold");
                                         else
-                                            frame.getRessourcePanel().setGoldLabel(-1000);
+                                            frame.getRessourcePanel().setGoldLabel(-frame.getBuffPanel().getGoldDrain());
                                         break;
                                     case"timeMultiplier":
-                                        if(frame.getRessourcePanel().getStrength() <= 100)
+                                        if(frame.getRessourcePanel().getStrength() <= frame.getBuffPanel().getStrengthDrain())
                                             throw new GameControllerException("Not enough strength");
                                         else
-                                            frame.getRessourcePanel().setStrengthLabel(-100);
+                                            frame.getRessourcePanel().setStrengthLabel(-frame.getBuffPanel().getStrengthDrain());
                                         break;
                                 }
 

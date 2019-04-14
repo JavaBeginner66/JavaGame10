@@ -117,61 +117,64 @@ public class GameEngineImplement implements GameEngine {
 
                 switch (key){
                     case "task":
-                        taskResult(ValueContainer.taskValue, valueContainer.getValue("goldMultiplier"), "income");
+                        taskResult(ValueContainer.taskValue, "income");
                         runningTasksStayDisabled("income1");
                         runningTasksStayDisabled("strength1");
                         runningTasksStayDisabled("time1");
                         runningTasksStayDisabled("energy1");
                         break;
                     case "income1":
-                        taskResult(ValueContainer.incomeValue1, valueContainer.getValue("goldMultiplier"), "income");
+                        taskResult(ValueContainer.incomeValue1,  "income");
                         runningTasksStayDisabled("income2");
                         checkUnlocks("energy1", "passive1");
                         break;
                     case "income2":
-                        taskResult(ValueContainer.incomeValue2, valueContainer.getValue("goldMultiplier"), "income");
+                        taskResult(ValueContainer.incomeValue2, "income");
                         runningTasksStayDisabled("income3");
                         checkUnlocks("strength2", "passive2");
                         break;
                     case "income3":
-                        taskResult(ValueContainer.incomeValue3, valueContainer.getValue("goldMultiplier"), "income");
+                        taskResult(ValueContainer.incomeValue3,  "income");
                         break;
                     case "energy1":
-                        taskResult(ValueContainer.energyValue1, valueContainer.getValue("energyMultiplier"), "energy");
+                        taskResult(ValueContainer.energyValue1,  "energy");
                         runningTasksStayDisabled("energy2");
                         checkUnlocks("income1", "passive1");
                         break;
                     case "energy2":
-                        taskResult(ValueContainer.energyValue2, valueContainer.getValue("energyMultiplier"), "energy");
+                        taskResult(ValueContainer.energyValue2,  "energy");
                         runningTasksStayDisabled("energy3");
                         checkUnlocks("time2", "passive4");
                         break;
                     case "energy3":
-                        taskResult(ValueContainer.energyValue3, valueContainer.getValue("energyMultiplier"), "energy");
+                        taskResult(ValueContainer.energyValue3, "energy");
                         break;
                     case "strength1":
-                        taskResult(ValueContainer.strengthValue1, valueContainer.getValue("strengthMultiplier"), "strength");
+                        taskResult(ValueContainer.strengthValue1,  "strength");
                         runningTasksStayDisabled("strength2");
                         break;
                     case "strength2":
-                        taskResult(ValueContainer.strengthValue2, valueContainer.getValue("strengthMultiplier"), "strength");
+                        taskResult(ValueContainer.strengthValue2,  "strength");
                         runningTasksStayDisabled("strength3");
                         checkUnlocks("income2", "passive2");
                         break;
                     case "strength3":
-                        taskResult(ValueContainer.strengthValue3, valueContainer.getValue("strengthMultiplier"), "strength");
+                        taskResult(ValueContainer.strengthValue3, "strength");
                         checkUnlocks("time3", "passive3");
                         break;
                     case "time1":
+                        taskResult((1-ValueContainer.timeCut1), "time");
                         timeCut(parameterKey);
                         runningTasksStayDisabled("time2");
                         break;
                     case "time2":
+                        taskResult((1-ValueContainer.timeCut2), "time");
                         timeCut(parameterKey);
                         runningTasksStayDisabled("time3");
                         checkUnlocks("energy2", "passive4");
                         break;
                     case "time3":
+                        taskResult((1-ValueContainer.timeCut3), "time");
                         timeCut(parameterKey);
                         checkUnlocks("strength3", "passive3");
                         break;
@@ -284,16 +287,19 @@ public class GameEngineImplement implements GameEngine {
     }
 
     @Override
-    public void taskResult(int value, double multiplier, String attribute){
+    public void taskResult(double value, String attribute){
         switch(attribute){
             case "income":
-                callBackGUI.getMainFrame().getRessourcePanel().setGoldLabel(value*multiplier);
+                callBackGUI.getMainFrame().getRessourcePanel().setGoldLabel(value* valueContainer.getValue("goldMultiplier"));
                 break;
             case "energy":
-                callBackGUI.getMainFrame().getRessourcePanel().setEnergyLabel(value*multiplier);
+                callBackGUI.getMainFrame().getRessourcePanel().setEnergyLabel(value*valueContainer.getValue("energyMultiplier"));
                 break;
             case "strength":
-                callBackGUI.getMainFrame().getRessourcePanel().setStrengthLabel(value*multiplier);
+                callBackGUI.getMainFrame().getRessourcePanel().setStrengthLabel(value*valueContainer.getValue("strengthMultiplier"));
+                break;
+            case "time":
+                callBackGUI.getMainFrame().getRessourcePanel().setTimeLabel(value*valueContainer.getValue("timeMultiplier"));
                 break;
         }
 

@@ -42,7 +42,7 @@ public interface GameEngine {
      */
     void automateTask(String key, String passive, String buttonToDisable);
 
-    void taskResult(int value, double multiplier, String attribute);
+    void taskResult(double value, String attribute);
 
 
 
